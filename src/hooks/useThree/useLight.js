@@ -2,7 +2,7 @@ import { useRef, useEffect, useCallback } from "react";
 import * as THREE from "three";
 
 export const useLight = ({ scence }) => {
-  const initLight = () => {
+  const initLight = useCallback(() => {
     const ambLight = new THREE.AmbientLight("#ffffff", 0.3); // 基本光源
 
     /**
@@ -13,7 +13,7 @@ export const useLight = ({ scence }) => {
     spotLight.castShadow = true; // 只有该属性为true时，该点光源允许产生阴影，并且下列属性可用
     spotLight.shadow.mapSize = new THREE.Vector2(1024, 1024);
     scence.add(ambLight, spotLight); // 向场景中添加光源
-  };
+  }, [scence]);
 
   return { initLight };
 };

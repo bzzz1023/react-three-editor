@@ -2,12 +2,13 @@ import { useRef, useEffect, useCallback, useState } from "react";
 import * as THREE from "three";
 import { GLTFLoader } from "three/examples/jsm/loaders/GLTFLoader.js";
 import { DRACOLoader } from "three/examples/jsm/loaders/DRACOLoader.js";
-
+import _ from "lodash";
 
 export const useMesh = ({ scence, forceUpdate }) => {
-  const meshList = useRef([]).current; // 模型容器
+  const meshList = useRef([]).current;
+  const [activeMesh, setActiveMesh] = useState(null);
 
-  const initMesh = () => {
+  const initMesh = useCallback(() => {
     /**
      * 创建地板
      */
@@ -35,38 +36,22 @@ export const useMesh = ({ scence, forceUpdate }) => {
     /**
      * 创建立方体
      */
-    const cubeGeometry = new THREE.BoxGeometry(1, 1, 1);
+    const cubeGeometry = new THREE.BoxGeometry(10, 10, 10);
     const cubeMaterial = new THREE.MeshLambertMaterial({ color: "blue" });
     const cube = new THREE.Mesh(cubeGeometry, cubeMaterial);
     cube.name = `cube.${cube.uuid.substring(0, 5)}`;
     cube.castShadow = true;
     cube.position.set(-20, 2.5, 0);
     scence.add(cube);
-    meshList.push(sphere); // 将球体、立方体加入容器
-    meshList.push(cube); // 将球体、立方体加入容器
+    meshList.push(sphere);
+    meshList.push(cube);
     forceUpdate();
-  };
-
-  const loadMesh = () => {
-    // const loader = new GLTFLoader();
-
-    // const dracoLoader = new DRACOLoader();
-    // dracoLoader.setDecoderPath("three/examples/jsm/libs/draco/");
-    // loader.setDRACOLoader(dracoLoader);
-
-    // // 加载地图模型
-    // loader.load("assets/camera.glb", function (gltf) {
-    //   console.log(gltf);
-    //   //将模型添加至场景
-    //   scence.add(gltf.scene);
-    //   //设置模型位置
-    //   gltf.scene.position.set(0, -100, 0);
-    // });
-  };
+  }, [scence]);
 
   return {
     initMesh,
     meshList,
-    loadMesh,
+    activeMesh,
+    setActiveMesh,
   };
 };

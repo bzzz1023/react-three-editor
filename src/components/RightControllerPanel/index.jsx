@@ -1,11 +1,14 @@
-import { useRef, useEffect, useCallback } from "react";
+import { useRef, useEffect, useCallback,memo } from "react";
 import './index.scss'
-const App = () => {
+const App = ({ activeMesh }) => {
   return (
-    <div className="right-controller-panel">
-      2233
+    <div className="right-controller-panel" id="right-111" onClick={(event) => {
+      event.stopPropagation()
+      event.preventDefault()
+    }}>
+      1122{activeMesh?.uuid}
     </div>
   );
 };
 
-export default App;
+export default memo(App);

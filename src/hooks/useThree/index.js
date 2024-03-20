@@ -1,4 +1,4 @@
-import { useRef, useEffect, useCallback, useState } from "react";
+import { useRef, useEffect, useCallback, useState, useMemo } from "react";
 import * as THREE from "three";
 import { OrbitControls } from "three/examples/jsm/controls/OrbitControls.js";
 
@@ -10,10 +10,6 @@ import { useRender } from "./useRender";
 import { useController } from "./useController";
 
 export const useThree = () => {
-  // 强制更新渲染
-  const [, updateState] = useState();
-  const forceUpdate = useCallback(() => updateState({}), []);
-
   const page = useRef(); // useRef不会导致重新渲染
   /**
    * 场景、相机、渲染器作为threejs的基本结构，需要在页面进入时渲染完毕
@@ -24,7 +20,20 @@ export const useThree = () => {
 
   const timer = useRef(null); // 定时器
 
-  const controls = new OrbitControls(camera, render.domElement); //创建控件对象
+  const controls = useMemo(() => {
+    return new OrbitControls(camera, render.domElement);
+  }, []); //创建控件对象
+
+  console.log(112233);
+
+  const [, updateState] = useState();
+  const forceUpdate = useCallback(() => updateState({}), []);
+
+  // 加载模型
+  const { initMesh, meshList, activeMesh, setActiveMesh } = useMesh({
+    scence,
+    forceUpdate,
+  });
 
   // 加载 场景
   const { initScence, setScence } = useScence({ render, scence, camera, page });
@@ -34,9 +43,6 @@ export const useThree = () => {
 
   // 加载 光源
   const { initLight } = useLight({ scence });
-
-  // 加载模型
-  const { meshList, initMesh, loadMesh } = useMesh({ scence, forceUpdate });
 
   // 启动 渲染器
   const { renderScene } = useRender({
@@ -49,16 +55,21 @@ export const useThree = () => {
   });
 
   // 控制器
-  useController({ meshList });
+  useController({ meshList, camera, scence, setActiveMesh, page });
 
   useEffect(() => {
+    // controls.current.rotateSpeed = 0.05;
+    // controls.current.zoomSpeed = 0.05;
+    console.log(render);
     page.current.appendChild(render.domElement);
     initScence();
     initCamera();
     initLight();
     initMesh();
     renderScene();
+    console.log("创建 webgl");
     return () => {
+      console.log("卸载 webgl");
       // 销毁定时器
       cancelAnimationFrame(timer.current);
       // 销毁材质、几何体、渲染器、场景
@@ -75,7 +86,6 @@ export const useThree = () => {
     scence,
     setScence,
     meshList,
-    loadMesh,
-    
+    activeMesh,
   };
 };

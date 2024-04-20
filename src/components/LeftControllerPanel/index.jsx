@@ -7,62 +7,83 @@ import {
   memo,
   useCallback,
 } from "react";
-import './index.scss'
+import "./index.scss";
+import useStore from "@/store";
 
-import { Tree } from 'antd';
+import MyTree from "@/components/MyTree";
+import MyTab from "@/components/MyTab";
+import { Collapse } from "antd";
 
-import MyTree from './components/MyTree'
+import injectCollapseItems from "./config/collapseItems";
 
-const App = ({ meshCache, setActiveMesh }) => {
+import { AnimationDataMap } from "@/constant";
 
+const tabItems = [
+  {
+    key: "1",
+    label: "项目",
+  },
+  {
+    key: "2",
+    label: "资源",
+  },
+];
 
-  // const setKeyTitle = (children) => {
-  //   if (children.length > 0) {
-  //     children.forEach((item) => {
-  //       item.key = item.uuid
-  //       item.title = !!item.name ? item.name : item.uuid
-  //       setKeyTitle(item.children)
-  //     })
-  //   }
-  // }
-  // meshCache.forEach((item) => {
-  //   item.key = item.uuid
-  //   item.title = !!item.name ? item.name : item.uuid
-  //   setKeyTitle(item.children)
-  // })
+const App = ({ modelListRef }) => {
+  const { target, setTarget, geometries, setGeometries } = useStore(); // Use store
+
+  const [activeTabKey, setActiveTabKey] = useState("2");
+
+  const onChangeModelList = (data) => {
+    const { config } = data;
+    const { userData, ...configArgs } = config;
+    console.log(config);
+    modelListRef.current.push({
+      id: new Date().toString(),
+      ...configArgs,
+      userData: {
+        ...userData,
+        // 动画数据
+        animationData: AnimationDataMap,
+        animationType: 0,
+      },
+    });
+    window.forceUpdate();
+  };
+
+  const collapseItems = injectCollapseItems({
+    onChangeModelList,
+    modelListRef,
+  });
 
   return (
     <div className="left-controller-panel">
-      <MyTree
-        treeData={meshCache}
-        onSelect={(e) => {
-          console.log(e);
-          setActiveMesh(e)
-        }}
-      />
-      {/* <Tree
-        treeData={meshCache}
-        onSelect={(e, k) => {
-          console.log(e);
-          console.log(k);
-          delete k.node[`key`]
-          delete k.node[`title`]
-          setActiveMesh(k.node)
-        }}
-      /> */}
-      {
-        meshCache.length > 0 && meshCache.map((item) => {
-          return (
-            <div
-              key={item.uuid}
-              onClick={() => {
-                setActiveMesh(item)
-              }}>{item.uuid}</div>
-          )
-        })
-      }
+      <div style={{ height: 32, width: "100%", padding: "0 8%" }}>
+        <MyTab
+          items={tabItems}
+          activeKey={activeTabKey}
+          onChange={(e) => {
+            setActiveTabKey(e);
+          }}
+        />
+      </div>
+      <div style={{ height: "calc(100% - 32px)" }}>
+        {activeTabKey === "1" && (
+          <MyTree
+            activeuuid={target && target.uuid}
+            treeData={modelListRef.current}
+            onSelect={(object) => {
+              setTarget(object);
+            }}
+          />
+        )}
+
+        {activeTabKey === "2" && (
+          <Collapse items={collapseItems} defaultActiveKey={["1"]} />
+        )}
+      </div>
     </div>
   );
 };
 
-export default (App);
+export default App;

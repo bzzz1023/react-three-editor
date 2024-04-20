@@ -6,163 +6,198 @@ import {
   Suspense,
   memo,
   useCallback,
+  useLayoutEffect,
 } from "react";
+import * as THREE from "three";
 import { Canvas, useFrame, useThree } from "@react-three/fiber";
+
 import {
   OrbitControls,
   TransformControls,
   useCursor,
   useGLTF,
   Stats,
+  PerspectiveCamera,
   useAnimations,
+  CameraShake,
+  Sky,
+  Clouds,
+  BakeShadows,
+  Stage,
 } from "@react-three/drei";
 import { EffectComposer, Bloom } from "@react-three/postprocessing";
-import { Leva, useControls } from "leva";
+import { Leva, useControls, folder } from "leva";
+import BottomControllerPanel from "@/components/BottomControllerPanel";
 import LeftControllerPanel from "@/components/LeftControllerPanel";
+import RightControllerPanel from "@/components/RightControllerPanel";
+import MiddleToolBox from "@/components/MiddleToolBox";
 
-const array = [
-  {
-    url: "http://127.0.0.1:7001/v1/model/camera.glb",
-  },
-  {
-    url: "http://127.0.0.1:7001/v1/model/soldier.glb",
-  },
+import useStore from "@/store";
+import MyCamera from "@/models/myCamera";
+import MyModel from "@/models/myModel";
+
+import useRightPanel from "@/hooks/useRightPanel";
+
+import { cameraData, meshData, ModelAssetMap } from "@/constant";
+
+const ModelAnimationType = [
+  { value: 1, label: "旋转" },
+  { value: 2, label: "移动" },
+  // { value: "3", label: "" },
 ];
 
-const AModel = memo(({ url, setActiveMesh, index, setMeshList }) => {
-  console.log('组件渲染===',index);
-  const res = useGLTF(url);
-  setMeshList((preState) => {
-    preState[index] = res;
-    return preState;
+function App() {
+  const { target, setTarget, geometries, setGeometries } = useStore();
+
+  const [, updateState] = useState();
+  window.forceUpdate = useCallback(() => updateState({}), []);
+
+  // 相机
+  const cameraRef = useRef();
+
+  // 缓存 modelListRef
+  const modelListRef = useRef(meshData);
+
+  // 相机设置
+  const [cameraState, setCameraState] = useState({
+    autoRotate: false,
+    autoRotateSpeed: 0.5,
+    autoRotateClockwise: 1,
   });
 
-  const objectRef = useRef();
-  objectRef.current = res;
-  const { scene, animations } = objectRef.current;
-
-  const ref = useRef();
-
-  useFrame(({ clock }) => {
-    // const step = clock.getElapsedTime();
-    // ref.current.rotation.y = step * 0.1;
+  // 控制器设置
+  const [transformControllerState, setTransformControllerState] = useState({
+    mode: "translate",
   });
 
-  const [hovered, setHovered] = useState(false);
-  useCursor(hovered);
-
-  const click = useCallback((e) => {
-    setActiveMesh(e.object);
-  }, []);
-
-  return (
-    <Suspense>
-      <group
-        ref={ref}
-        onClick={(e) => {
-          click(e);
-        }}
-        onPointerOver={(e) => setHovered(true)}
-        onPointerOut={(e) => setHovered(false)}
-        dispose={null}
-        position={[1, 1, 1]}
-      >
-        <primitive object={scene} />
-      </group>
-    </Suspense>
-  );
-});
-
-export default function App() {
-  const [activeMesh, setActiveMesh] = useState(null);
-
-  const [meshList, setMeshList] = useState(array);
-
-  const [{ mode, position }, set] = useControls(() => {
-    return {
-      mode: {
-        label: "transform",
-        value: "translate",
-        options: ["translate", "rotate", "scale"],
-      },
-      position: {
-        label: "position",
-        value: { x: 0, y: 0, z: 0 },
-        onChange: (v) => {
-          // console.log(v);
-          if (activeMesh) {
-            activeMesh.position.x = v.x;
-          }
-        },
-      },
-    };
+  // 模型属性
+  const [modelPropertyState, setModelPropertyState] = useState({
+    visible: true,
+    position: {
+      x: 0,
+      y: 0,
+      z: 0,
+    },
+    scale: {
+      x: 0,
+      y: 0,
+      z: 0,
+    },
+    rotation: {
+      x: 0,
+      y: 0,
+      z: 0,
+    },
   });
 
-  // useEffect(() => {
-  //   // console.log(activeMesh);
-  //   activeMesh &&
-  //     (() => {
-  //       console.log(typeof activeMesh.position);
-  //       const { x, y, z } = activeMesh.position;
-  //       set({ position: { x, y, z } });
-  //     })();
-  // }, [activeMesh]);
+  // 模型动画
+  const [modelAnimationState, setModelAnimationState] = useState({
+    animationType: 0,
+    animationData: {},
+  });
+
+  const {
+    onChangeCameraState,
+    onChangeTransformControllerState,
+    onChangeModelPropertyState,
+    onChangeTransformControls,
+    onChangeModelAnimationState
+  } = useRightPanel({
+    setCameraState,
+    setTransformControllerState,
+    setModelPropertyState,
+    setModelAnimationState,
+  });
 
   return (
     <div className="out-page-container">
-      <div className="right-controller-panel">
-        <Leva
-          fill // 占满容器
-          flat // 扁平化
-          hideCopyButton //隐藏复制按钮
-          hidden={!activeMesh} // 不被隐藏
-          titleBar={{ drag: false, title: "示例面板" }}
-        />
-      </div>
-      <LeftControllerPanel meshList={meshList} />
+      <MiddleToolBox cameraRef={cameraRef} />
+      <LeftControllerPanel
+        modelListRef={modelListRef}
+      />
+      <RightControllerPanel
+        cameraState={cameraState}
+        onChangeCameraState={onChangeCameraState}
+        transformControllerState={transformControllerState}
+        onChangeTransformControllerState={onChangeTransformControllerState}
+        modelPropertyState={modelPropertyState}
+        onChangeModelPropertyState={onChangeModelPropertyState}
+        modelAnimationState={modelAnimationState}
+        onChangeModelAnimationState={onChangeModelAnimationState}
+      />
       <div className="main-three-editor-container">
         <Canvas
           dpr={[1, 2]}
-          onPointerMissed={() => setActiveMesh(null)}
-          camera={{ position: [3, 3, 3] }}
+          onPointerMissed={() => {
+            onChangeTransformControllerState("mode", "translate");
+            setTarget(null);
+          }}
+          onWheel={(e) => {}}
+          onPointerDown={(e) => {
+            // 鼠标按下
+          }}
+          onPointerUp={(e) => {
+            // 鼠标抬起
+          }}
+          onTouchMove={(e) => {}}
         >
-          <EffectComposer>
-            <Bloom luminanceThreshold={1} mipmapBlur />
-          </EffectComposer>
-          {meshList.length > 0 &&
-            meshList.map((item, index) => {
-              return (
-                <AModel
-                  key={index}
-                  index={index}
-                  url={item.url}
-                  setActiveMesh={setActiveMesh}
-                  setMeshList={setMeshList}
-                />
-              );
-            })}
+          <Sky scale={1000} sunPosition={[500, 150, -1000]} turbidity={0.1} />
 
-          {/* <AModel url={`/assets/soldier.glb`} setActiveMesh={setActiveMesh} /> */}
-          {/* <GroupModel nodes={nodes} setActiveMesh={setActiveMesh} /> */}
-          {/* <Box
-              position={[2, 2, 0]}
-              setHovered={setHovered}
-              setActiveMesh={setActiveMesh}
-            />
-            <Box setHovered={setHovered} setActiveMesh={setActiveMesh} /> */}
-          <directionalLight color="white" position={[0, 0, 3]} />
+          {modelListRef.current.length > 0 &&
+            modelListRef.current.map((item, index) => {
+              if (item.modelType === 1) {
+                return (
+                  <MyModel
+                    key={item.id}
+                    {...item}
+                    setTarget={setTarget}
+                    index={index}
+                    modelListRef={modelListRef}
+                  />
+                );
+              } else if (item.modelType === 2) {
+                const Com = ModelAssetMap[item.modelKey];
+                return (
+                  <Com
+                    key={item.id}
+                    {...item}
+                    setTarget={setTarget}
+                    index={index}
+                    modelListRef={modelListRef}
+                  />
+                );
+              }
+            })}
+          <directionalLight color="red" position={[0, 0, 3]} />
           <directionalLight color="white" position={[3, 0, 0]} />
           <directionalLight color="white" position={[0, 1, 0]} />
-          <directionalLight color="white" position={[0, -3, 0]} />
-          {/* <ambientLight intensity={3} /> */}
-
-          <axesHelper args={[8]} />
+          <directionalLight color="white" position={[3, 3, 3]} intensity={15} />
           <gridHelper size={10} divisions={10} />
-          {activeMesh && <TransformControls object={activeMesh} mode={mode} />}
-          <OrbitControls makeDefault />
+          <MyCamera
+            cameraRef={cameraRef}
+            // forceUpdate={forceUpdate}
+          />
+          {target && (
+            <TransformControls
+              object={target}
+              mode={transformControllerState.mode}
+              onChange={onChangeTransformControls}
+            />
+          )}
+          <axesHelper args={[5]} />
+          <OrbitControls
+            makeDefault
+            enableDamping={false}
+            autoRotate={cameraState.autoRotate}
+            autoRotateSpeed={
+              cameraState.autoRotateSpeed * cameraState.autoRotateClockwise
+            }
+          />
           {/* <Stats /> */}
         </Canvas>
       </div>
     </div>
   );
 }
+
+export default memo(App);

@@ -1,6 +1,7 @@
 import { useRef, useEffect, useState, memo } from "react";
 import './index.scss'
 import { Slider } from 'antd';
+import useStore from "@/store";
 
 const toolList = [
   {
@@ -16,12 +17,19 @@ const toolList = [
     label: "动画"
   },
 ]
-const App = ({ meshList, selectMesh, changeAnimationState }) => {
+const App = ({ meshList, changeAnimationState, addMesh }) => {
+  const { target, setTarget, geometries, setGeometries } = useStore(); // Use store
 
-  const [activeToolKey, setActiveToolKey] = useState(0)
+  const [activeToolKey, setActiveToolKey] = useState(2)
+
+  // console.log(target);
 
   return (
     <div className="bottom-controller-panel">
+      <button onClick={() => {
+        const url = "http://127.0.0.1:7001/v1/model/soldier.glb"
+        addMesh(url)
+      }}>添加模型</button>
       <div className="top-tool-bar">
 
         {
@@ -37,7 +45,7 @@ const App = ({ meshList, selectMesh, changeAnimationState }) => {
         }
       </div>
       <>
-        {
+        {/* {
           activeToolKey === 0 && meshList.length > 0 && (
             <div className="mesh-list-container">
               {
@@ -47,15 +55,14 @@ const App = ({ meshList, selectMesh, changeAnimationState }) => {
                       className="mesh-item-container"
                       key={index}
                       onClick={() => {
-                        selectMesh(index)
                       }}
-                    >{item.meshName.split('.')[0]}</div>
+                    >{item.modelName.split('.')[0]}</div>
                   )
                 })
               }
             </div>
           )
-        }
+        } */}
       </>
       <>
         {
@@ -63,11 +70,19 @@ const App = ({ meshList, selectMesh, changeAnimationState }) => {
             <div className="animation-list-container">
               <div>
                 <span>旋转速度</span>
+                <div>{target?.userData?.modelName}</div>
                 <Slider
                   min={0} max={20}
                   step={1}
                   onChangeComplete={(e) => {
-                    changeAnimationState("rotateSpeed", e)
+                    // console.log(target);
+                    // const temp = target
+
+                    // if (temp) {
+                    //   temp?.userData?.rotateSpeed = e
+                    //   setTarget(temp)
+                    // }
+                    // changeAnimationState("rotateSpeed", e)
                   }}
                 />
               </div>

@@ -1,10 +1,21 @@
 .left-controller-panel {
     position: absolute;
-    border: 2px solid green;
-    top: 48px;
+    top: 0px;
     left: 0;
-    width: 240px;
-    height: calc(100% - 220px - 48px);
+    width: 280px;
+    height: calc(100vh);
     z-index: 99;
     // overflow: auto;
+    background-color: white;
+}
+
+.base-model-container{
+    display: flex;
+    flex-wrap: wrap;
+    justify-content: space-evenly;
+    .base-model-item-container{
+        width: 80px;
+        height: 80px;
+        border: 1px solid rgb(205, 205, 205);
+    }
 }

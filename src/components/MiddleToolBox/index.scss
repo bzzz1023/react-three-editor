@@ -1,0 +1,7 @@
+.middle-tool-box-container {
+    position: absolute;
+    left: 50%;
+    z-index: 99999;
+    transform: translate(-50%, 0);
+    border: 2px solid red;
+}

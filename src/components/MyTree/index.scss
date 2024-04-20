@@ -1,0 +1,74 @@
+.my-tree-out-container {
+    width: 100%;
+    overflow: auto;
+    white-space: nowrap;
+    height: 100%;
+    font-size: 14px;
+    background-color: white;
+    padding: 8px 0;
+    .my-tree-inner-container {
+        height: 100%;
+        overflow: auto;
+        width: 100%;
+
+        .mytree-item {
+            padding-left: 16px;
+            width: 100%;
+
+            .my-tree-title-container {
+                margin-bottom: 4px;
+                display: flex;
+                align-items: center;
+                width: 100%;
+
+                .icon-common {
+                    height: 22px;
+                    width: 22px;
+                    margin-right: 8px;
+                }
+
+                .icon-placeholder {
+                    flex-shrink: 0;
+                }
+
+                .icon {
+                    display: flex;
+                    align-items: center;
+                    justify-content: center;
+                    flex-shrink: 0;
+                    border-radius: 4px;
+                    &:hover {
+                        cursor: pointer;
+                        background-color: aliceblue;
+                    }
+                }
+
+                .title {
+                    flex: 1;
+                    flex-shrink: 0;
+                    padding: 4px 6px;
+                    border-radius: 4px;
+
+                    &:hover {
+                        cursor: pointer;
+                        background-color: aliceblue;
+                    }
+                }
+
+                .active-title {
+                    color: rgb(38, 98, 238);
+                    background-color: aliceblue;
+                    font-weight: 500;
+                }
+
+            }
+
+            .my-tree-children-container {
+                // overflow: auto;
+
+            }
+        }
+    }
+
+
+}

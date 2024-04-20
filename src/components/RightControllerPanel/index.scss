@@ -1,9 +1,46 @@
 .right-controller-panel {
     position: absolute;
-    border: 2px solid red;
     top: 0;
     right: 0;
     width: 280px;
     height: 100%;
     z-index: 99;
+    background-color: #ffffff;
+    padding: 12px;
+
+    .big-title {
+        font-size: 14px;
+        font-weight: 500;
+    }
+
+    .item-box {
+        display: flex;
+        align-items: center;
+        font-size: 12px;
+        flex-wrap: wrap;
+        margin-bottom: 4px;
+        color: rgb(79, 79, 79);
+
+        .item-title {
+            width: 56px;
+            font-weight: 500;
+        }
+
+        .content-box-one {
+            width: calc(100% - 56px);
+        }
+
+        .content-box-two {
+            display: flex;
+            justify-content: space-between;
+            width: 100%;
+            margin-top: 2px;
+
+            .content-item {
+                width: 33%;
+            }
+        }
+
+
+    }
 }

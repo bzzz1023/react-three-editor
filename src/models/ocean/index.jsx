@@ -1,6 +1,6 @@
 import waterImg from "./waternormals.jpeg";
 import * as THREE from "three";
-import React, { Suspense, useRef, useMemo } from "react";
+import React, { Suspense, useRef, useMemo,useEffect } from "react";
 import {
   Canvas,
   extend,
@@ -11,7 +11,7 @@ import {
 import { Water } from "three-stdlib";
 
 extend({ Water });
-function Ocean() {
+function Ocean({ userData, setTarget, index, modelListRef }) {
   const ref = useRef();
   const gl = useThree((state) => state.gl);
   const waterNormals = useLoader(THREE.TextureLoader, waterImg);
@@ -34,7 +34,27 @@ function Ocean() {
   useFrame(
     (state, delta) => (ref.current.material.uniforms.time.value += delta)
   );
-  return <water ref={ref} args={[geom, config]} rotation-x={-Math.PI / 2} />;
+
+  useEffect(() => {
+    ref.current.userData = {
+      ...ref.current.userData,
+      ...userData,
+    };
+    modelListRef.current[index].mesh = { scene: ref.current };
+  }, []);
+
+  return (
+    <water
+      ref={ref}
+      args={[geom, config]}
+      rotation-x={-Math.PI / 2}
+      onClick={(e) => {
+        // console.log(2233,setTarget);
+        // console.log(1122,e.object);
+        setTarget(e.object);
+      }}
+    />
+  );
 }
 
 export default Ocean;

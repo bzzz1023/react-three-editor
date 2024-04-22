@@ -9,6 +9,7 @@ import {
 } from "react";
 import "./index.scss";
 import useStore from "@/store";
+import { v4 as uuidv4 } from 'uuid';
 
 import MyTree from "@/components/MyTree";
 import MyTab from "@/components/MyTab";
@@ -39,7 +40,7 @@ const App = ({ modelListRef }) => {
     const { userData, ...configArgs } = config;
     console.log(config);
     modelListRef.current.push({
-      id: new Date().toString(),
+      id: uuidv4(),
       ...configArgs,
       userData: {
         ...userData,
@@ -48,6 +49,7 @@ const App = ({ modelListRef }) => {
         animationType: 0,
       },
     });
+
     window.forceUpdate();
   };
 

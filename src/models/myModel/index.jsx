@@ -23,10 +23,8 @@ import {
 } from "@react-three/drei";
 import useStore from "@/store";
 
-import animationFunc from "./utils";
-
-import initSetModelProperty from '@/utils/initSetModelProperty.js'
-import modelAnimationExecute from '@/utils/modelAnimation/index.js'
+import initSetModelProperty from "@/utils/model/initSetModelProperty.js";
+import modelAnimationExecute from "@/utils/modelAnimation/index.js";
 
 export default memo(({ url, userData, setTarget, index, modelListRef }) => {
   const ref = useRef();
@@ -36,7 +34,6 @@ export default memo(({ url, userData, setTarget, index, modelListRef }) => {
   console.log("渲染 my model ~");
 
   useFrame((state, delta) => {
-    // const { clock } = state;
     if (ref.current) {
       modelAnimationExecute({ ref, state, delta });
     }

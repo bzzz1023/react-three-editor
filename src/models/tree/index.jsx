@@ -11,6 +11,9 @@ import {
 } from "react";
 import { Canvas, useFrame, useThree } from "@react-three/fiber";
 import { useGLTF, Clone } from "@react-three/drei";
+import initSetModelProperty from "@/utils/model/initSetModelProperty.js";
+import modelAnimationExecute from "@/utils/modelAnimation/index.js";
+
 
 const App = ({ userData, setTarget, index, modelListRef }) => {
   const ref = useRef();
@@ -20,6 +23,7 @@ const App = ({ userData, setTarget, index, modelListRef }) => {
 
   useFrame((state, delta) => {
     if (ref.current) {
+      modelAnimationExecute({ ref, state, delta });
     }
   });
 
@@ -29,6 +33,8 @@ const App = ({ userData, setTarget, index, modelListRef }) => {
       ...userData,
     };
     modelListRef.current[index].mesh = { scene: ref.current };
+    initSetModelProperty({ ref });
+
   }, []);
 
   return (

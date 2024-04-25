@@ -4,6 +4,7 @@ import useStore from "@/store";
 import { InputNumber, Checkbox, Select, Radio } from "antd";
 
 import AnimationOne from "./components/AnimationOne";
+import AnimationTwo from "./components/AnimationTwo";
 
 const App = ({ modelAnimationState, onChangeModelAnimationState }) => {
   const { target, setTarget, geometries, setGeometries } = useStore();
@@ -33,6 +34,13 @@ const App = ({ modelAnimationState, onChangeModelAnimationState }) => {
 
           {modelAnimationState.animationType === 1 && (
             <AnimationOne
+              modelAnimationState={modelAnimationState}
+              onChangeModelAnimationState={onChangeModelAnimationState}
+            />
+          )}
+
+          {modelAnimationState.animationType === 2 && (
+            <AnimationTwo
               modelAnimationState={modelAnimationState}
               onChangeModelAnimationState={onChangeModelAnimationState}
             />

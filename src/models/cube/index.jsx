@@ -1,11 +1,21 @@
 import { extend, useFrame, useLoader } from "@react-three/fiber";
 import * as THREE from "three";
 import { useEffect, useRef, Suspense } from "react";
-
+import modelAnimationExecute from "@/utils/modelAnimation/index.js";
+import {
+  SphereGeometry,
+  PlaneGeometry,
+  BoxGeometry,
+  CylinderGeometry,
+} from "three";
 const App = ({ userData, setTarget, index, modelListRef }) => {
   const ref = useRef();
 
-  useFrame((state) => {});
+  useFrame((state, delta) => {
+    if (ref.current) {
+      modelAnimationExecute({ ref, state, delta });
+    }
+  });
   useEffect(() => {
     // 保存模型ref
     ref.current.userData = {
@@ -19,12 +29,13 @@ const App = ({ userData, setTarget, index, modelListRef }) => {
     <Suspense>
       <mesh
         ref={ref}
+        geometry={new BoxGeometry()}
         dispose={null}
         onClick={(e) => {
-          setTarget(e.eventObject);
+          setTarget(ref.current);
         }}
       >
-        <boxGeometry />
+        <meshStandardMaterial color={"#FFB6C1"} />
       </mesh>
     </Suspense>
   );

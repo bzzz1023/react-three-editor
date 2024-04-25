@@ -14,7 +14,7 @@ import cloneDeep from "lodash/cloneDeep";
 export default ({ setModelPropertyState }) => {
   const { target, setTarget, geometries, setGeometries } = useStore();
 
-  const setNestedPropertyValue = useCallback((key, value, obj) => {
+  const setNestedPropertyValue = (key, value, obj) => {
     const keys = key.split("."); // 将键路径分割成数组
     let current = obj;
     // 迭代对象以找到指定路径
@@ -23,7 +23,7 @@ export default ({ setModelPropertyState }) => {
     }
     // 更新最后一个键的值
     current[keys[keys.length - 1]] = value;
-  }, []);
+  };
 
   // 改变模型属性
   const onChangeModelProperty = (key, value) => {

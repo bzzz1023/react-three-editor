@@ -26,7 +26,7 @@ export default ({ ref, state, delta }) => {
   // 自身旋转
   if (enableRotateSelf) {
     // TODO 计算模型根据y轴旋转
-    // ref.current.rotation.y += delta * speed * rotateClockwise;
+    ref.current.rotation.y += delta * speed * rotateClockwise;
   }
   ref.current.position.set(x, oldY, z);
 };

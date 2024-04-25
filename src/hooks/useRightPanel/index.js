@@ -41,6 +41,7 @@ export default ({
 
   useEffect(() => {
     if (target) {
+      console.log('切换target===', target.userData);
       setModelProperty(target);
       setModelAnimation(target);
     }

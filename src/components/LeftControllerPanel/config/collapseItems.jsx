@@ -31,7 +31,7 @@ const baseModelList = [
       userData: {
         modelType: 2,
         modelName: "树木",
-        // scale: { x: 0.1, y: 0.1, z: 0.1 },
+        scale: { x: 0.1, y: 0.1, z: 0.1 },
       },
     },
   },

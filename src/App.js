@@ -40,17 +40,14 @@ import useRightPanel from "@/hooks/useRightPanel";
 
 import { cameraData, meshData, ModelAssetMap } from "@/constant";
 
-const ModelAnimationType = [
-  { value: 1, label: "旋转" },
-  { value: 2, label: "移动" },
-  // { value: "3", label: "" },
-];
-
 function App() {
   const { target, setTarget, geometries, setGeometries } = useStore();
 
   const [, updateState] = useState();
   window.forceUpdate = useCallback(() => updateState({}), []);
+
+  // 灯光
+  const lightRef = useRef();
 
   // 相机
   const cameraRef = useRef();
@@ -101,7 +98,7 @@ function App() {
     onChangeTransformControllerState,
     onChangeModelPropertyState,
     onChangeTransformControls,
-    onChangeModelAnimationState
+    onChangeModelAnimationState,
   } = useRightPanel({
     setCameraState,
     setTransformControllerState,
@@ -112,9 +109,7 @@ function App() {
   return (
     <div className="out-page-container">
       <MiddleToolBox cameraRef={cameraRef} />
-      <LeftControllerPanel
-        modelListRef={modelListRef}
-      />
+      <LeftControllerPanel modelListRef={modelListRef} />
       <RightControllerPanel
         cameraState={cameraState}
         onChangeCameraState={onChangeCameraState}
@@ -168,10 +163,10 @@ function App() {
                 );
               }
             })}
-          <directionalLight color="red" position={[0, 0, 3]} />
-          <directionalLight color="white" position={[3, 0, 0]} />
-          <directionalLight color="white" position={[0, 1, 0]} />
-          <directionalLight color="white" position={[3, 3, 3]} intensity={15} />
+          {/* <directionalLight color="red" position={[0, 0, 3]} /> */}
+          {/* <directionalLight color="white" position={[3, 0, 0]} /> */}
+          {/* <directionalLight color="white" position={[0, 1, 0]} /> */}
+          <directionalLight color="white" position={[1, 1, 1]} intensity={10} />
           <gridHelper size={10} divisions={10} />
           <MyCamera
             cameraRef={cameraRef}

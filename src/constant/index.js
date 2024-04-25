@@ -19,7 +19,7 @@ export const AnimationDataMap = {
     rotateClockwise: -1,
     rotateSpeed: 1,
   },
-  // 移动
+  // 循环往复移动
   2: {
     moveDirection: ["x"],
     moveRange: 2,
@@ -56,7 +56,7 @@ export const meshData = [
       rotation: { x: 0, y: 180, z: 0 },
       scale: { x: 1, y: 1, z: 1 },
       animationType: 0,
-      animationData: AnimationDataMap,
+      animationData: { ...AnimationDataMap },
     },
   },
   {
@@ -68,7 +68,7 @@ export const meshData = [
       modelName: "士兵",
       position: { x: 0, y: 0, z: 0 },
       animationType: 0,
-      animationData: AnimationDataMap,
+      animationData: { ...AnimationDataMap },
     },
   },
 ];

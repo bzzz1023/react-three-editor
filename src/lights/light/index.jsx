@@ -39,13 +39,14 @@ const App = ({ userData, setTarget, index, modelListRef }) => {
     <Suspense>
       <mesh
         ref={ref}
-        geometry={new BoxGeometry()}
+        geometry={new ConeGeometry(2, 3, 32)}
         dispose={null}
         onClick={(e) => {
           setTarget(ref.current);
         }}
       >
         <meshStandardMaterial color={"#FFB6C1"} />
+        <pointLight color="white" position={[1, 1, 1]} intensity={100} />
       </mesh>
     </Suspense>
   );

@@ -10,7 +10,6 @@ import {
 } from "react";
 import * as THREE from "three";
 import { Canvas, useFrame, useThree } from "@react-three/fiber";
-
 import {
   OrbitControls,
   TransformControls,
@@ -26,7 +25,7 @@ import {
   Stage,
 } from "@react-three/drei";
 import { EffectComposer, Bloom } from "@react-three/postprocessing";
-import { Leva, useControls, folder } from "leva";
+
 import BottomControllerPanel from "@/components/BottomControllerPanel";
 import LeftControllerPanel from "@/components/LeftControllerPanel";
 import RightControllerPanel from "@/components/RightControllerPanel";
@@ -34,11 +33,14 @@ import MiddleToolBox from "@/components/MiddleToolBox";
 
 import useStore from "@/store";
 import MyCamera from "@/models/myCamera";
+import MyScene from "@/models/myScene";
 import MyModel from "@/models/myModel";
+import Light from "@/models/light";
 
 import useRightPanel from "@/hooks/useRightPanel";
 
-import { cameraData, meshData, ModelAssetMap } from "@/constant";
+import { meshData, ModelAssetMap } from "@/constant";
+import { sceneData, cameraData } from "@/mock";
 
 function App() {
   const { target, setTarget, geometries, setGeometries } = useStore();
@@ -46,71 +48,43 @@ function App() {
   const [, updateState] = useState();
   window.forceUpdate = useCallback(() => updateState({}), []);
 
-  // 灯光
-  const lightRef = useRef();
-
-  // 相机
-  const cameraRef = useRef();
-
   // 缓存 modelListRef
   const modelListRef = useRef(meshData);
 
-  // 相机设置
-  const [cameraState, setCameraState] = useState({
-    autoRotate: false,
-    autoRotateSpeed: 0.5,
-    autoRotateClockwise: 1,
-  });
-
-  // 控制器设置
-  const [transformControllerState, setTransformControllerState] = useState({
-    mode: "translate",
-  });
-
-  // 模型属性
-  const [modelPropertyState, setModelPropertyState] = useState({
-    visible: true,
-    position: {
-      x: 0,
-      y: 0,
-      z: 0,
-    },
-    scale: {
-      x: 0,
-      y: 0,
-      z: 0,
-    },
-    rotation: {
-      x: 0,
-      y: 0,
-      z: 0,
-    },
-  });
-
-  // 模型动画
-  const [modelAnimationState, setModelAnimationState] = useState({
-    animationType: 0,
-    animationData: {},
-  });
-
   const {
+    sceneRef,
+
+    cameraRef,
+
+    rightPannelActiveTabKey,
+    setRightPannelActiveTabKey,
+
+    sceneState,
+    onChangeSceneState,
+
+    cameraState,
     onChangeCameraState,
+
+    transformControllerState,
     onChangeTransformControllerState,
-    onChangeModelPropertyState,
     onChangeTransformControls,
+
+    modelPropertyState,
+    onChangeModelPropertyState,
+
+    modelAnimationState,
     onChangeModelAnimationState,
-  } = useRightPanel({
-    setCameraState,
-    setTransformControllerState,
-    setModelPropertyState,
-    setModelAnimationState,
-  });
+  } = useRightPanel();
 
   return (
     <div className="out-page-container">
       <MiddleToolBox cameraRef={cameraRef} />
       <LeftControllerPanel modelListRef={modelListRef} />
       <RightControllerPanel
+        rightPannelActiveTabKey={rightPannelActiveTabKey}
+        setRightPannelActiveTabKey={setRightPannelActiveTabKey}
+        sceneState={sceneState}
+        onChangeSceneState={onChangeSceneState}
         cameraState={cameraState}
         onChangeCameraState={onChangeCameraState}
         transformControllerState={transformControllerState}
@@ -126,6 +100,7 @@ function App() {
           onPointerMissed={() => {
             onChangeTransformControllerState("mode", "translate");
             setTarget(null);
+            setRightPannelActiveTabKey("1");
           }}
           onWheel={(e) => {}}
           onPointerDown={(e) => {
@@ -136,8 +111,9 @@ function App() {
           }}
           onTouchMove={(e) => {}}
         >
-          <Sky scale={1000} sunPosition={[500, 150, -1000]} turbidity={0.1} />
-
+          {/* <Sky scale={1000} sunPosition={[500, 150, -1000]} turbidity={0.1} /> */}
+          <MyScene sceneRef={sceneRef} sceneData={sceneData} />
+          <MyCamera cameraRef={cameraRef} cameraData={cameraData} />
           {modelListRef.current.length > 0 &&
             modelListRef.current.map((item, index) => {
               if (item.modelType === 1) {
@@ -161,17 +137,19 @@ function App() {
                     modelListRef={modelListRef}
                   />
                 );
+              } else if (item.modelType === 3) {
+                return (
+                  <Light
+                    key={item.id}
+                    {...item}
+                    setTarget={setTarget}
+                    index={index}
+                    modelListRef={modelListRef}
+                  />
+                );
               }
             })}
-          {/* <directionalLight color="red" position={[0, 0, 3]} /> */}
-          {/* <directionalLight color="white" position={[3, 0, 0]} /> */}
-          {/* <directionalLight color="white" position={[0, 1, 0]} /> */}
-          <directionalLight color="white" position={[1, 1, 1]} intensity={10} />
-          <gridHelper size={10} divisions={10} />
-          <MyCamera
-            cameraRef={cameraRef}
-            // forceUpdate={forceUpdate}
-          />
+
           {target && (
             <TransformControls
               object={target}
@@ -179,6 +157,7 @@ function App() {
               onChange={onChangeTransformControls}
             />
           )}
+          <gridHelper size={10} divisions={10} />
           <axesHelper args={[5]} />
           <OrbitControls
             makeDefault

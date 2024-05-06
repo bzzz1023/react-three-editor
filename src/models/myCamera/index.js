@@ -22,32 +22,18 @@ import {
 } from "@react-three/drei";
 import useStore from "@/store";
 
-import { cameraData } from "@/constant";
-
-const MyCamera = memo(({ cameraRef }) => {
+const MyCamera = memo(({ cameraRef, cameraData }) => {
   const { camera } = useThree();
-  // 初始化camera配置
-  camera.userData = cameraData;
-  camera.position.set(...cameraData.position);
-
-  // 帧渲染
-
-  useFrame((state, delta) => {
-    // console.log('x==',state.camera.position.x);
-    // console.log('y==',state.camera.position.y);
-    // console.log('z==',state.camera.position.z);
-    // const { enable, targetPosition } = cameraRef.current.userData.movePosition;
-    // if (enable) {
-    //   const targetPositionVector3 = new THREE.Vector3(...targetPosition);
-    //   cameraRef.current.position.lerp(targetPositionVector3, 0);
-    //   cameraRef.current.lookAt(0, 0, 0);
-    // }
-  });
 
   useEffect(() => {
-    cameraRef.current = camera;
+    // 保存 camera 配置
+    camera.userData = { ...cameraData };
 
-    // 初始化camera位置
+    // 初始化 camera 配置
+    camera.position.set(...camera.userData.position);
+
+    // 保存ref
+    cameraRef.current = camera;
   }, []);
 });
 
@@ -78,13 +64,13 @@ useFrame((state, delta) => {
 
       camera.position.set(newX, y, newZ);
 
-      // ====== 下面这个方法不行，tips：必须得是值的增量
-      // const step = clock.getElapsedTime();
-      // const deg = (Math.PI / 180) * step * 10;
-      // const d = originPoint.distanceTo(camera.position);
-      // const r = Math.sqrt(d * d - y * y);
-      // const newX1 = r * Math.cos(deg);
-      // const newZ1 = r * Math.sin(deg);
+      ====== 下面这个方法不行，tips：必须得是值的增量
+      const step = clock.getElapsedTime();
+      const deg = (Math.PI / 180) * step * 10;
+      const d = originPoint.distanceTo(camera.position);
+      const r = Math.sqrt(d * d - y * y);
+      const newX1 = r * Math.cos(deg);
+      const newZ1 = r * Math.sin(deg);
     }
   });
 

@@ -9,6 +9,18 @@ import {
   CylinderGeometry,
   ConeGeometry,
 } from "three";
+
+const lightMap = {
+  directionalLight: (
+    <directionalLight color="white" position={[0, 0, 0]} intensity={100} />
+  ),
+  ambientLight: (
+    <ambientLight color="white" position={[0, 0, 0]} intensity={100} />
+  ),
+  spotLight: <spotLight color="white" position={[0, 0, 0]} intensity={100} />,
+  pointLight: <pointLight color="white" position={[0, 0, 0]} intensity={100} />,
+};
+
 const App = ({ userData, setTarget, index, modelListRef }) => {
   const ref = useRef();
 
@@ -30,22 +42,19 @@ const App = ({ userData, setTarget, index, modelListRef }) => {
     console.log("light===", ref.current);
   }, []);
 
-  // directionalLight
-  // ambientLight
-  // spotLight
-  // pointLight
-
   return (
     <Suspense>
       <mesh
         ref={ref}
-        geometry={new BoxGeometry()}
+        geometry={new ConeGeometry(1, 2, 32)}
         dispose={null}
         onClick={(e) => {
           setTarget(ref.current);
         }}
       >
-        <meshStandardMaterial color={"#FFB6C1"} />
+        <meshStandardMaterial wireframe />
+        {lightMap[userData.lightKey]}
+        {/* <pointLight color="white" position={[0, 0, 0]} intensity={100} /> */}
       </mesh>
     </Suspense>
   );

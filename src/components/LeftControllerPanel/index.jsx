@@ -15,14 +15,14 @@ import MyTree from "@/components/MyTree";
 import MyTab from "@/components/MyTab";
 import { Collapse } from "antd";
 
-import injectCollapseItems from "./config/collapseItems";
+import injectCollapseItems from "./components/collapseItems";
 
 import { AnimationDataMap } from "@/constant";
 
 const tabItems = [
   {
     key: "1",
-    label: "项目",
+    label: "场景",
   },
   {
     key: "2",
@@ -42,6 +42,7 @@ const App = ({ modelListRef }) => {
       id: uuidv4(),
       ...configArgs,
       userData: {
+        ...configArgs,
         ...userData,
         // 动画数据
         animationData: { ...AnimationDataMap },
@@ -52,9 +53,28 @@ const App = ({ modelListRef }) => {
     window.forceUpdate();
   };
 
+  const onChangeUploadModel = ({ name, url }) => {
+    const newModel = {
+      id: uuidv4(),
+      modelType: 1,
+      url,
+      userData: {
+        modelType: 1,
+        modelName: name,
+        position: { x: 1, y: 0, z: 1 },
+        rotation: { x: 0, y: 180, z: 0 },
+        scale: { x: 1, y: 1, z: 1 },
+        animationType: 0,
+        animationData: { ...AnimationDataMap },
+      },
+    };
+    modelListRef.current.push(newModel);
+    window.forceUpdate();
+  };
+
   const collapseItems = injectCollapseItems({
     onChangeModelList,
-    modelListRef,
+    onChangeUploadModel,
   });
 
   return (
@@ -80,7 +100,7 @@ const App = ({ modelListRef }) => {
         )}
 
         {activeTabKey === "2" && (
-          <Collapse items={collapseItems} defaultActiveKey={["1"]} />
+          <Collapse items={collapseItems} defaultActiveKey={["1", "2", "3"]} />
         )}
       </div>
     </div>

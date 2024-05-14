@@ -1,45 +1,8 @@
 import { baseModelList, lightList } from "../config";
 import { Button, message, Upload } from "antd";
 
-const BaseModel = ({ onChangeModelList }) => {
-  return (
-    <div className="base-model-container">
-      {baseModelList.map((item, index) => {
-        return (
-          <div
-            key={index}
-            className="base-model-item-container"
-            onClick={() => {
-              onChangeModelList(item);
-            }}
-          >
-            {item.label}
-          </div>
-        );
-      })}
-    </div>
-  );
-};
-
-const BaseLight = ({ onChangeModelList }) => {
-  return (
-    <div className="base-light-container">
-      {lightList.map((item, index) => {
-        return (
-          <div
-            key={index}
-            className="base-light-item-container "
-            onClick={() => {
-              onChangeModelList(item);
-            }}
-          >
-            {item.label}
-          </div>
-        );
-      })}
-    </div>
-  );
-};
+import BaseModelList from "./baseModelList";
+import BaseLightList from "./baseLightList";
 
 const UploadModel = ({ onChangeUploadModel }) => {
   const onChangeModel = (info) => {
@@ -67,7 +30,7 @@ export default ({ onChangeModelList, onChangeUploadModel }) => {
     {
       key: "1",
       label: "基础模型",
-      children: <BaseModel onChangeModelList={onChangeModelList} />,
+      children: <BaseModelList onChangeModelList={onChangeModelList} />,
     },
     {
       key: "2",
@@ -77,7 +40,7 @@ export default ({ onChangeModelList, onChangeUploadModel }) => {
     {
       key: "3",
       label: "灯光",
-      children: <BaseLight onChangeModelList={onChangeModelList}></BaseLight>,
+      children: <BaseLightList onChangeModelList={onChangeModelList} />,
     },
   ];
 };

@@ -9,9 +9,24 @@ import {
   useLayoutEffect,
 } from "react";
 
-export default ({ setCameraState }) => {
-  // 改变camera属性
+export default () => {
+  // 相机
+  const cameraRef = useRef();
 
+  // 相机设置
+  const [cameraState, setCameraState] = useState({
+    autoRotate: false,
+    autoRotateSpeed: 0.5,
+    autoRotateClockwise: 1,
+  });
+
+  // 初始化camera 属性
+  const initCamera = (data) => {
+    cameraRef.current.userData = { ...data };
+    cameraRef.current.position.set(...cameraRef.current.userData.position);
+  };
+
+  // 改变camera state
   const onChangeCameraState = useCallback((key, value) => {
     setCameraState((preState) => {
       return {
@@ -22,6 +37,9 @@ export default ({ setCameraState }) => {
   }, []);
 
   return {
+    cameraRef,
+    cameraState,
+    initCamera,
     onChangeCameraState,
   };
 };

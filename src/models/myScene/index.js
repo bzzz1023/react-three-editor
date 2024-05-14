@@ -22,15 +22,10 @@ import {
   Sky,
 } from "@react-three/drei";
 
-const App = ({ sceneRef, sceneData }) => {
+const App = ({ sceneRef}) => {
   const { scene } = useThree();
 
   useEffect(() => {
-    scene.userData = { ...sceneData };
-
-    const { background } = scene.userData;
-    scene.background = new THREE.Color(background);
-
     sceneRef.current = scene;
   }, []);
 };

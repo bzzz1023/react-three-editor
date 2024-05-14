@@ -22,21 +22,6 @@ export default () => {
   // 右侧tab栏
   const [rightPannelActiveTabKey, setRightPannelActiveTabKey] = useState("1");
 
-  // 场景
-  const sceneRef = useRef();
-
-  const [sceneState, setSceneState] = useState({});
-
-  // 相机
-  const cameraRef = useRef();
-
-  // 相机设置
-  const [cameraState, setCameraState] = useState({
-    autoRotate: false,
-    autoRotateSpeed: 0.5,
-    autoRotateClockwise: 1,
-  });
-
   // 控制器设置
   const [transformControllerState, setTransformControllerState] = useState({
     mode: "translate",
@@ -68,9 +53,10 @@ export default () => {
     animationData: {},
   });
 
-  const { onChangeSceneState } = useScene({ setSceneState, sceneRef });
+  const { sceneRef, sceneState, initScene, onChangeSceneState } = useScene();
 
-  const { onChangeCameraState } = useCamera({ setCameraState });
+  const { cameraRef, cameraState, initCamera, onChangeCameraState } =
+    useCamera();
 
   const { onChangeTransformControllerState } = useTransformController({
     setTransformControllerState,
@@ -87,8 +73,6 @@ export default () => {
   const { setModelAnimation, onChangeModelAnimationState } = useModelAnimation({
     setModelAnimationState,
   });
-
-  // 初始化camera，
 
   useEffect(() => {
     if (target) {
@@ -108,9 +92,11 @@ export default () => {
     setRightPannelActiveTabKey,
 
     sceneState,
+    initScene,
     onChangeSceneState,
 
     cameraState,
+    initCamera,
     onChangeCameraState,
 
     transformControllerState,

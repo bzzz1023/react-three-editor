@@ -1,6 +1,6 @@
 import waterImg from "./waternormals.jpeg";
 import * as THREE from "three";
-import React, { Suspense, useRef, useMemo,useEffect } from "react";
+import React, { Suspense, useRef, useMemo, useEffect } from "react";
 import {
   Canvas,
   extend,
@@ -8,6 +8,9 @@ import {
   useLoader,
   useFrame,
 } from "@react-three/fiber";
+
+import { Sky } from "@react-three/drei";
+
 import { Water } from "three-stdlib";
 
 extend({ Water });
@@ -44,16 +47,19 @@ function Ocean({ userData, setTarget, index, modelListRef }) {
   }, []);
 
   return (
-    <water
-      ref={ref}
-      args={[geom, config]}
-      rotation-x={-Math.PI / 2}
-      onClick={(e) => {
-        // console.log(2233,setTarget);
-        // console.log(1122,e.object);
-        setTarget(e.object);
-      }}
-    />
+    <mesh>
+      <water
+        ref={ref}
+        args={[geom, config]}
+        rotation-x={-Math.PI / 2}
+        onClick={(e) => {
+          // console.log(2233,setTarget);
+          // console.log(1122,e.object);
+          // setTarget(e.object);
+        }}
+      />
+      <Sky scale={1000} sunPosition={[500, 150, -1000]} turbidity={0.1} />
+    </mesh>
   );
 }
 

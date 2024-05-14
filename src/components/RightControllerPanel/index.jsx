@@ -15,6 +15,7 @@ import CameraPanel from "./components/CameraPanel";
 import ModelPropertyPanel from "./components/ModelPropertyPanel";
 import ModelAnimationPanel from "./components/ModelAnimationPanel";
 import TransformControllerPanel from "./components/TransformControllerPanel";
+import ScenePanel from "./components/ScenePanel";
 
 import MyTab from "@/components/MyTab";
 
@@ -60,21 +61,11 @@ const App = ({
       <div style={{ height: "calc(100% - 32px)", padding: 12 }}>
         {rightPannelActiveTabKey === "1" && (
           <>
-            <ColorPicker
-              disabledAlpha
-              value={sceneState.background}
-              format="hex"
-              onChange={(_, hex) => {
-                onChangeSceneState("background", hex);
-              }}
+            <ScenePanel
+              sceneState={sceneState}
+              onChangeSceneState={onChangeSceneState}
             />
 
-            <TransformControllerPanel
-              transformControllerState={transformControllerState}
-              onChangeTransformControllerState={
-                onChangeTransformControllerState
-              }
-            />
             <CameraPanel
               cameraState={cameraState}
               onChangeCameraState={onChangeCameraState}
@@ -84,6 +75,12 @@ const App = ({
 
         {rightPannelActiveTabKey === "2" && (
           <>
+            <TransformControllerPanel
+              transformControllerState={transformControllerState}
+              onChangeTransformControllerState={
+                onChangeTransformControllerState
+              }
+            />
             <ModelPropertyPanel
               modelPropertyState={modelPropertyState}
               onChangeModelPropertyState={onChangeModelPropertyState}

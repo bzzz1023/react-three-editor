@@ -54,7 +54,6 @@ const App = ({ userData, setTarget, index, modelListRef }) => {
       >
         <meshStandardMaterial wireframe />
         {lightMap[userData.lightKey]}
-        {/* <pointLight color="white" position={[0, 0, 0]} intensity={100} /> */}
       </mesh>
     </Suspense>
   );

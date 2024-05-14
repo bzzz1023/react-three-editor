@@ -22,17 +22,10 @@ import {
 } from "@react-three/drei";
 import useStore from "@/store";
 
-const MyCamera = memo(({ cameraRef, cameraData }) => {
+const MyCamera = memo(({ cameraRef }) => {
   const { camera } = useThree();
 
   useEffect(() => {
-    // 保存 camera 配置
-    camera.userData = { ...cameraData };
-
-    // 初始化 camera 配置
-    camera.position.set(...camera.userData.position);
-
-    // 保存ref
     cameraRef.current = camera;
   }, []);
 });

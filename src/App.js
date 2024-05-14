@@ -39,8 +39,9 @@ import Light from "@/models/light";
 
 import useRightPanel from "@/hooks/useRightPanel";
 
-import { meshData, ModelAssetMap } from "@/constant";
-import { sceneData, cameraData } from "@/mock";
+import { ModelAssetMap } from "@/constant";
+
+import { GetCanvasDataApi } from "@/api/mock.js";
 
 function App() {
   const { target, setTarget, geometries, setGeometries } = useStore();
@@ -49,7 +50,7 @@ function App() {
   window.forceUpdate = useCallback(() => updateState({}), []);
 
   // 缓存 modelListRef
-  const modelListRef = useRef(meshData);
+  const modelListRef = useRef([]);
 
   const {
     sceneRef,
@@ -60,9 +61,11 @@ function App() {
     setRightPannelActiveTabKey,
 
     sceneState,
+    initScene,
     onChangeSceneState,
 
     cameraState,
+    initCamera,
     onChangeCameraState,
 
     transformControllerState,
@@ -75,6 +78,22 @@ function App() {
     modelAnimationState,
     onChangeModelAnimationState,
   } = useRightPanel();
+
+  useEffect(() => {
+    (async () => {
+      const res = await GetCanvasDataApi();
+      if (res.code === 200) {
+        const { sceneData, cameraData, modelData } = res.data;
+        // 初始化模型
+        modelListRef.current = [...modelData];
+        window.forceUpdate();
+        // 初始化相机
+        initCamera(cameraData);
+        // 初始化场景
+        initScene(sceneData)
+      }
+    })();
+  }, []);
 
   return (
     <div className="out-page-container">
@@ -111,9 +130,8 @@ function App() {
           }}
           onTouchMove={(e) => {}}
         >
-          {/* <Sky scale={1000} sunPosition={[500, 150, -1000]} turbidity={0.1} /> */}
-          <MyScene sceneRef={sceneRef} sceneData={sceneData} />
-          <MyCamera cameraRef={cameraRef} cameraData={cameraData} />
+          <MyScene sceneRef={sceneRef} />
+          <MyCamera cameraRef={cameraRef} />
           {modelListRef.current.length > 0 &&
             modelListRef.current.map((item, index) => {
               if (item.modelType === 1) {

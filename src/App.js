@@ -60,6 +60,10 @@ function App() {
     rightPannelActiveTabKey,
     setRightPannelActiveTabKey,
 
+    operationState,
+    initOperation,
+    onChangeOperationState,
+
     sceneState,
     initScene,
     onChangeSceneState,
@@ -83,14 +87,16 @@ function App() {
     (async () => {
       const res = await GetCanvasDataApi();
       if (res.code === 200) {
-        const { sceneData, cameraData, modelData } = res.data;
+        const { sceneData, cameraData, modelData, operationData } = res.data;
         // 初始化模型
         modelListRef.current = [...modelData];
         window.forceUpdate();
         // 初始化相机
         initCamera(cameraData);
         // 初始化场景
-        initScene(sceneData)
+        initScene(sceneData);
+        // 初始化操作
+        initOperation(operationData);
       }
     })();
   }, []);
@@ -102,6 +108,8 @@ function App() {
       <RightControllerPanel
         rightPannelActiveTabKey={rightPannelActiveTabKey}
         setRightPannelActiveTabKey={setRightPannelActiveTabKey}
+        operationState={operationState}
+        onChangeOperationState={onChangeOperationState}
         sceneState={sceneState}
         onChangeSceneState={onChangeSceneState}
         cameraState={cameraState}
@@ -175,8 +183,10 @@ function App() {
               onChange={onChangeTransformControls}
             />
           )}
-          <gridHelper size={10} divisions={10} />
-          <axesHelper args={[5]} />
+          {operationState.showGridHelper && (
+            <gridHelper size={10} divisions={10} />
+          )}
+          {operationState.showAxesHelper && <axesHelper args={[5]} />}
           <OrbitControls
             makeDefault
             enableDamping={false}

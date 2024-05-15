@@ -1,5 +1,10 @@
 import { AnimationDataMap } from "@/constant";
 
+export const operationData = {
+  showGridHelper: false,
+  showAxesHelper: false,
+};
+
 export const sceneData = {
   background: `#ffffff`,
 };

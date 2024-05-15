@@ -1,4 +1,4 @@
-import { sceneData, cameraData,modelData } from "@/mock";
+import { sceneData, cameraData,modelData,operationData } from "@/mock";
 
 export const GetCanvasDataApi = async () => {
   return new Promise((res) => {
@@ -6,6 +6,7 @@ export const GetCanvasDataApi = async () => {
       res({
         code: 200,
         data: {
+          operationData,
           sceneData,
           cameraData,
           modelData

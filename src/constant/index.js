@@ -26,3 +26,11 @@ export const AnimationDataMap = {
     moveSpeed: 10,
   },
 };
+
+// 光源基础参数
+export const LightBaseConfig = {
+  intensity: 1,
+  color: "#ffffff",
+  distance: 0,
+  angle: 0.5,
+};

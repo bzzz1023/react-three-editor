@@ -15,6 +15,7 @@ import useTransformController from "./useTransformController";
 import useModelProperty from "./useModelProperty";
 import useModelAnimation from "./useModelAnimation";
 import useScene from "./useScene";
+import useOperation from "./useOperation";
 
 export default () => {
   const { target, setTarget, geometries, setGeometries } = useStore();
@@ -53,6 +54,9 @@ export default () => {
     animationData: {},
   });
 
+  const { operationState, initOperation, onChangeOperationState } =
+    useOperation();
+
   const { sceneRef, sceneState, initScene, onChangeSceneState } = useScene();
 
   const { cameraRef, cameraState, initCamera, onChangeCameraState } =
@@ -90,6 +94,10 @@ export default () => {
 
     rightPannelActiveTabKey,
     setRightPannelActiveTabKey,
+
+    operationState,
+    initOperation,
+    onChangeOperationState,
 
     sceneState,
     initScene,

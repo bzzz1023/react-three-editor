@@ -11,12 +11,10 @@ import {
 import * as THREE from "three";
 
 export default () => {
-  const sceneRef = useRef();
-
-  const [sceneState, setSceneState] = useState({});
+  const [lightState, setLightState] = useState({});
 
   // 初始化scene
-  const initScene = (data) => {
+  const setLightProperty = (data) => {
     sceneRef.current.userData = { ...data };
 
     const { background } = sceneRef.current.userData;
@@ -29,21 +27,11 @@ export default () => {
     });
   };
 
-  const onChangeSceneState = useCallback((key, value) => {
-    console.log(value);
-    setSceneState((preState) => {
-      return {
-        ...preState,
-        [key]: value,
-      };
-    });
-    sceneRef.current[key] = new THREE.Color(`${value}`);
-  }, []);
+  const onChangeLightState = useCallback((key, value) => {}, []);
 
   return {
-    sceneRef,
-    sceneState,
-    initScene,
-    onChangeSceneState,
+    lightState,
+    setLightProperty,
+    onChangeLightState,
   };
 };

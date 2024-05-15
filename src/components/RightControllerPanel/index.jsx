@@ -16,6 +16,8 @@ import ModelPropertyPanel from "./components/ModelPropertyPanel";
 import ModelAnimationPanel from "./components/ModelAnimationPanel";
 import TransformControllerPanel from "./components/TransformControllerPanel";
 import ScenePanel from "./components/ScenePanel";
+import OperationPanel from "./components/OperationPanel";
+import LightPanel from "./components/LightPanel";
 
 import MyTab from "@/components/MyTab";
 
@@ -33,6 +35,8 @@ const tabItems = [
 const App = ({
   rightPannelActiveTabKey,
   setRightPannelActiveTabKey,
+  operationState,
+  onChangeOperationState,
   sceneState,
   onChangeSceneState,
   cameraState,
@@ -45,7 +49,6 @@ const App = ({
   onChangeModelAnimationState,
 }) => {
   const { target, setTarget, geometries, setGeometries } = useStore();
-
   return (
     <div className="right-controller-panel">
       <div style={{ height: 32, width: "100%", padding: "0 8%" }}>
@@ -57,10 +60,14 @@ const App = ({
           }}
         />
       </div>
-      {/*  */}
       <div style={{ height: "calc(100% - 32px)", padding: 12 }}>
         {rightPannelActiveTabKey === "1" && (
           <>
+            <OperationPanel
+              operationState={operationState}
+              onChangeOperationState={onChangeOperationState}
+            />
+
             <ScenePanel
               sceneState={sceneState}
               onChangeSceneState={onChangeSceneState}
@@ -85,6 +92,12 @@ const App = ({
               modelPropertyState={modelPropertyState}
               onChangeModelPropertyState={onChangeModelPropertyState}
             />
+            {/* 灯光 */}
+            {
+              target?.userData?.modelType === 3 && (
+                <LightPanel />
+              )
+            }
             <ModelAnimationPanel
               modelAnimationState={modelAnimationState}
               onChangeModelAnimationState={onChangeModelAnimationState}

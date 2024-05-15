@@ -55,7 +55,19 @@ export const baseModelList = [
 
 export const lightList = [
   {
-    label: "平行灯",
+    label: "基础光-ambientLight",
+    imageUrl: lightIcon,
+    config: {
+      modelType: 3,
+      modelKey: "light",
+      userData: {
+        modelName: "基础光",
+        lightKey: "ambientLight",
+      },
+    },
+  },
+  {
+    label: "平行灯-directionalLight",
     imageUrl: lightIcon,
     config: {
       modelType: 3,
@@ -67,19 +79,7 @@ export const lightList = [
     },
   },
   {
-    label: "环境光",
-    imageUrl: lightIcon,
-    config: {
-      modelType: 3,
-      modelKey: "light",
-      userData: {
-        modelName: "环境光",
-        lightKey: "ambientLight",
-      },
-    },
-  },
-  {
-    label: "聚光灯",
+    label: "聚光灯-spotLight",
     imageUrl: lightIcon,
     config: {
       modelType: 3,
@@ -91,7 +91,7 @@ export const lightList = [
     },
   },
   {
-    label: "点光源",
+    label: "点光源-pointLight",
     imageUrl: lightIcon,
     config: {
       modelType: 3,

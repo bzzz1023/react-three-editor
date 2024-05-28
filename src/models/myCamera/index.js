@@ -21,9 +21,14 @@ import {
   Sky,
 } from "@react-three/drei";
 import useStore from "@/store";
+import * as TWEEN from "@tweenjs/tween.js";
 
 const MyCamera = memo(({ cameraRef }) => {
   const { camera } = useThree();
+
+  useFrame((state, delta) => {
+    TWEEN.update()
+  })
 
   useEffect(() => {
     cameraRef.current = camera;

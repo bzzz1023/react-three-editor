@@ -34,9 +34,9 @@ const TreeItem = memo(
             onClick={(e) => {
               e.preventDefault();
               e.stopPropagation();
-              // if (deep === 1) {
+              if (deep === 1) {
                 onSelect(mesh);
-              // }
+              }
             }}
             className={`title ${activeuuid === uuid ? "active-title" : ""}`}
           >

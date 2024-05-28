@@ -51,7 +51,7 @@ const App = ({
   const { target, setTarget, geometries, setGeometries } = useStore();
   return (
     <div className="right-controller-panel">
-      <div style={{ height: 32, width: "100%", padding: "0 8%" }}>
+      <div className="header-box">
         <MyTab
           items={tabItems}
           activeKey={rightPannelActiveTabKey}
@@ -60,7 +60,7 @@ const App = ({
           }}
         />
       </div>
-      <div style={{ height: "calc(100% - 32px)", padding: 12 }}>
+      <div className="config-content-box">
         {rightPannelActiveTabKey === "1" && (
           <>
             <OperationPanel
@@ -93,11 +93,7 @@ const App = ({
               onChangeModelPropertyState={onChangeModelPropertyState}
             />
             {/* 灯光 */}
-            {
-              target?.userData?.modelType === 3 && (
-                <LightPanel />
-              )
-            }
+            {target?.userData?.modelType === 3 && <LightPanel />}
             <ModelAnimationPanel
               modelAnimationState={modelAnimationState}
               onChangeModelAnimationState={onChangeModelAnimationState}
@@ -105,6 +101,7 @@ const App = ({
           </>
         )}
       </div>
+      <div className="delete-box">删除</div>
     </div>
   );
 };

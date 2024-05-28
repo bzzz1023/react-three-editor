@@ -79,7 +79,7 @@ const App = ({ modelListRef }) => {
 
   return (
     <div className="left-controller-panel">
-      <div style={{ height: 32, width: "100%", padding: "0 8%" }}>
+      <div className="header-box">
         <MyTab
           items={tabItems}
           activeKey={activeTabKey}
@@ -88,7 +88,7 @@ const App = ({ modelListRef }) => {
           }}
         />
       </div>
-      <div style={{ height: "calc(100% - 32px)" }}>
+      <div className="config-content-box">
         {activeTabKey === "1" && (
           <MyTree
             activeuuid={target && target.uuid}

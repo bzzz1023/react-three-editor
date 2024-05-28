@@ -3,81 +3,91 @@
     top: 0px;
     left: 0;
     width: 280px;
-    height: calc(100vh);
+    height: 100vh;
     z-index: 99;
-    overflow: auto;
     background-color: white;
     border-right: 1px solid rgb(229, 229, 229);
 
-    .base-model-container {
-        display: flex;
-        flex-wrap: wrap;
-        justify-content: space-evenly;
-
-        .base-model-item-container {
-            position: relative;
-            width: 100px;
-            height: 140px;
-            margin-bottom: 16px;
-            padding: 16px;
-            display: flex;
-            flex-direction: column;
-            align-items: center;
-            .model-bg {
-                background-size: 100% 100%;
-                border-radius: 8px;
-                overflow: hidden;
-            }
-
-            .model-name {
-                position: relative;
-                display: flex;
-                align-items: center;
-                justify-content: center;
-                z-index: 99;
-            }
-
-        }
-
-        .base-model-item-container:hover {
-            scale: 1.05;
-            cursor: pointer;
-        }
+    .header-box {
+        height: 36px;
+        width: 100%;
     }
 
-    .base-light-container {
-        display: flex;
-        flex-wrap: wrap;
-        justify-content: space-evenly;
+    .config-content-box {
+        height: calc(100vh - 36px);
+        overflow: auto;
 
-        .base-light-item-container {
-            position: relative;
-            width: 100px;
-            height: 140px;
-            margin-bottom: 16px;
-            padding: 16px;
+        .base-model-container {
             display: flex;
-            flex-direction: column;
-            align-items: center;
+            flex-wrap: wrap;
+            justify-content: space-evenly;
 
-            .light-bg {
-                background-size: 100% 100%;
-                border-radius: 8px;
-                overflow: hidden;
+            .base-model-item-container {
+                position: relative;
+                width: 100px;
+                height: 140px;
+                margin-bottom: 16px;
+                padding: 16px;
+                display: flex;
+                flex-direction: column;
+                align-items: center;
+
+                .model-bg {
+                    background-size: 100% 100%;
+                    border-radius: 8px;
+                    overflow: hidden;
+                }
+
+                .model-name {
+                    position: relative;
+                    display: flex;
+                    align-items: center;
+                    justify-content: center;
+                    z-index: 99;
+                }
+
             }
 
-            .light-name {
-                position: relative;
-                display: flex;
-                align-items: center;
-                justify-content: center;
-                z-index: 99;
+            .base-model-item-container:hover {
+                scale: 1.05;
+                cursor: pointer;
             }
         }
 
-        .base-light-item-container:hover {
-            scale: 1.05;
-            cursor: pointer;
+        .base-light-container {
+            display: flex;
+            flex-wrap: wrap;
+            justify-content: space-evenly;
+
+            .base-light-item-container {
+                position: relative;
+                width: 100px;
+                height: 140px;
+                margin-bottom: 16px;
+                padding: 16px;
+                display: flex;
+                flex-direction: column;
+                align-items: center;
+
+                .light-bg {
+                    background-size: 100% 100%;
+                    border-radius: 8px;
+                    overflow: hidden;
+                }
+
+                .light-name {
+                    position: relative;
+                    display: flex;
+                    align-items: center;
+                    justify-content: center;
+                    z-index: 99;
+                }
+            }
+
+            .base-light-item-container:hover {
+                scale: 1.05;
+                cursor: pointer;
+            }
         }
     }
 

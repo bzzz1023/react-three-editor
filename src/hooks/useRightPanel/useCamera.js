@@ -8,6 +8,7 @@ import {
   useCallback,
   useLayoutEffect,
 } from "react";
+import { Canvas, useFrame, useThree } from "@react-three/fiber";
 
 export default () => {
   // 相机
@@ -24,6 +25,7 @@ export default () => {
   const initCamera = (data) => {
     cameraRef.current.userData = { ...data };
     cameraRef.current.position.set(...cameraRef.current.userData.position);
+    cameraRef.current.lookAt(0, 0, 0);
   };
 
   // 改变camera state

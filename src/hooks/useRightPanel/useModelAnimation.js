@@ -30,12 +30,9 @@ export default ({ setModelAnimationState }) => {
   // 初始化动画数据状态
   const setModelAnimation = (object) => {
     const { userData } = object;
-
     if (Object.keys(userData).length === 0) return;
 
     const { animationType, animationData } = userData;
-
-    if(!animationType || !animationData) return
 
     const data =
       animationData[animationType] || AnimationDataMap[animationType];

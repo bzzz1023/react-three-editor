@@ -8,7 +8,6 @@ import AnimationTwo from "./components/AnimationTwo";
 
 const App = ({ modelAnimationState, onChangeModelAnimationState }) => {
   const { target, setTarget, geometries, setGeometries } = useStore();
-
   return (
     <>
       {target && (

@@ -81,6 +81,9 @@ function App() {
 
     modelAnimationState,
     onChangeModelAnimationState,
+
+    lightState,
+    onChangeLightState,
   } = useRightPanel();
 
   useEffect(() => {
@@ -120,14 +123,14 @@ function App() {
         onChangeModelPropertyState={onChangeModelPropertyState}
         modelAnimationState={modelAnimationState}
         onChangeModelAnimationState={onChangeModelAnimationState}
+        lightState={lightState}
+        onChangeLightState={onChangeLightState}
       />
       <div className="main-three-editor-container">
         <Canvas
           dpr={[1, 2]}
           onPointerMissed={() => {
-            onChangeTransformControllerState("mode", "translate");
             setTarget(null);
-            setRightPannelActiveTabKey("1");
           }}
           onWheel={(e) => {}}
           onPointerDown={(e) => {
@@ -195,7 +198,7 @@ function App() {
               cameraState.autoRotateSpeed * cameraState.autoRotateClockwise
             }
           />
-          {/* <Stats /> */}
+          {operationState.statsVisible && <Stats />}
         </Canvas>
       </div>
     </div>

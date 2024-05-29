@@ -47,6 +47,8 @@ const App = ({
   onChangeModelPropertyState,
   modelAnimationState,
   onChangeModelAnimationState,
+  lightState,
+  onChangeLightState,
 }) => {
   const { target, setTarget, geometries, setGeometries } = useStore();
   return (
@@ -93,7 +95,12 @@ const App = ({
               onChangeModelPropertyState={onChangeModelPropertyState}
             />
             {/* 灯光 */}
-            {target?.userData?.modelType === 3 && <LightPanel />}
+            {target?.userData?.modelType === 3 && (
+              <LightPanel
+                lightState={lightState}
+                onChangeLightState={onChangeLightState}
+              />
+            )}
             <ModelAnimationPanel
               modelAnimationState={modelAnimationState}
               onChangeModelAnimationState={onChangeModelAnimationState}

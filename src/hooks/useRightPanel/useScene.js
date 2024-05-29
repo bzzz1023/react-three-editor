@@ -30,7 +30,6 @@ export default () => {
   };
 
   const onChangeSceneState = useCallback((key, value) => {
-    console.log(value);
     setSceneState((preState) => {
       return {
         ...preState,

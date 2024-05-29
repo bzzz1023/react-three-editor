@@ -9,25 +9,40 @@ import {
   useLayoutEffect,
 } from "react";
 import * as THREE from "three";
+import useStore from "@/store";
 
 export default () => {
+  const { target, setTarget, geometries, setGeometries } = useStore();
+
   const [lightState, setLightState] = useState({});
 
   // 初始化scene
-  const setLightProperty = (data) => {
-    sceneRef.current.userData = { ...data };
-
-    const { background } = sceneRef.current.userData;
-    sceneRef.current.background = new THREE.Color(background);
-    setSceneState((preState) => {
+  const setLightProperty = (object) => {
+    const { intensity, color } = object;
+    console.log(color);
+    setLightState((preState) => {
       return {
         ...preState,
-        background,
+        intensity,
       };
     });
   };
 
-  const onChangeLightState = useCallback((key, value) => {}, []);
+  const onChangeLightState = (key, value) => {
+    if (key === "color") {
+      target.color.r = 255
+      target.color.g = 182
+      target.color.b = 193
+    } else {
+      setLightState((preState) => {
+        return {
+          ...preState,
+          [key]: value,
+        };
+      });
+      target[key] = value;
+    }
+  };
 
   return {
     lightState,

@@ -9,8 +9,11 @@ import {
   useLayoutEffect,
 } from "react";
 
-export default ({ setTransformControllerState }) => {
-  // 改变camera属性
+export default () => {
+    // 控制器设置
+    const [transformControllerState, setTransformControllerState] = useState({
+      mode: "translate",
+    });
 
   const onChangeTransformControllerState = useCallback((key, value) => {
     setTransformControllerState((preState) => {
@@ -22,6 +25,7 @@ export default ({ setTransformControllerState }) => {
   }, []);
 
   return {
+    transformControllerState,
     onChangeTransformControllerState,
   };
 };

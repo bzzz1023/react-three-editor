@@ -13,9 +13,13 @@ import cloneDeep from "lodash/cloneDeep";
 
 import { AnimationDataMap } from "@/constant";
 
-export default ({ setModelAnimationState }) => {
+export default () => {
   const { target, setTarget, geometries, setGeometries } = useStore();
-
+  // 模型动画
+  const [modelAnimationState, setModelAnimationState] = useState({
+    animationType: 0,
+    animationData: {},
+  });
   const setNestedPropertyValue = (key, value, obj) => {
     const keys = key.split("."); // 将键路径分割成数组
     let current = obj;
@@ -95,6 +99,7 @@ export default ({ setModelAnimationState }) => {
   };
 
   return {
+    modelAnimationState,
     setModelAnimation,
     onChangeModelAnimationState,
   };

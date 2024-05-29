@@ -15,21 +15,21 @@ export default () => {
 
   // 初始化scene
   const initOperation = (data) => {
-    setOperationState((preState)=>{
+    setOperationState((preState) => {
       return {
         ...preState,
-        ...data
-      }
-    })
+        ...data,
+      };
+    });
   };
 
   const onChangeOperationState = useCallback((key, value) => {
-    setOperationState((preState)=>{
+    setOperationState((preState) => {
       return {
         ...preState,
-        [key]:value
-      }
-    })
+        [key]: value,
+      };
+    });
   }, []);
 
   return {

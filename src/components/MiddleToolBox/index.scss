@@ -1,7 +1,11 @@
 .middle-tool-box-container {
+    display: flex;
     position: absolute;
     left: 50%;
+    bottom: 16px;
     z-index: 99999;
     transform: translate(-50%, 0);
-    border: 2px solid red;
+    width: 40%;
+    background-color: white;
+    padding: 6px 24px;
 }

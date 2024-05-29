@@ -25,7 +25,7 @@ const App = ({ userData, setTarget, index, modelListRef }) => {
 
   useHelper(ref, DirectionalLightHelper);
 
-  return <directionalLight ref={ref} intensity={10} />;
+  return <directionalLight ref={ref} />;
 };
 
 export default memo(App);

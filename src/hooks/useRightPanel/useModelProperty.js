@@ -11,8 +11,27 @@ import {
 import useStore from "@/store";
 import cloneDeep from "lodash/cloneDeep";
 
-export default ({ setModelPropertyState }) => {
+export default () => {
   const { target, setTarget, geometries, setGeometries } = useStore();
+
+  const [modelPropertyState, setModelPropertyState] = useState({
+    visible: true,
+    position: {
+      x: 0,
+      y: 0,
+      z: 0,
+    },
+    scale: {
+      x: 0,
+      y: 0,
+      z: 0,
+    },
+    rotation: {
+      x: 0,
+      y: 0,
+      z: 0,
+    },
+  });
 
   const setNestedPropertyValue = (key, value, obj) => {
     const keys = key.split("."); // 将键路径分割成数组
@@ -136,6 +155,7 @@ export default ({ setModelPropertyState }) => {
   };
 
   return {
+    modelPropertyState,
     onChangeModelPropertyState,
     onChangeTransformControls,
     setModelProperty,

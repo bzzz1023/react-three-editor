@@ -25,7 +25,7 @@ const App = ({ userData, setTarget, index, modelListRef }) => {
 
   // useHelper(ref, AmbientLight);
 
-  return <ambientLight ref={ref} intensity={10} />;
+  return <ambientLight ref={ref} />;
 };
 
 export default memo(App);

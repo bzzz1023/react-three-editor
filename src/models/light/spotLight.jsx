@@ -25,7 +25,7 @@ const App = ({ userData, setTarget, index, modelListRef }) => {
 
   useHelper(ref, SpotLightHelper);
 
-  return <spotLight ref={ref} intensity={10} />;
+  return <spotLight ref={ref} />;
 };
 
 export default memo(App);

@@ -16,43 +16,13 @@ import useModelProperty from "./useModelProperty";
 import useModelAnimation from "./useModelAnimation";
 import useScene from "./useScene";
 import useOperation from "./useOperation";
+import useLight from "./useLight";
 
 export default () => {
   const { target, setTarget, geometries, setGeometries } = useStore();
 
   // 右侧tab栏
   const [rightPannelActiveTabKey, setRightPannelActiveTabKey] = useState("1");
-
-  // 控制器设置
-  const [transformControllerState, setTransformControllerState] = useState({
-    mode: "translate",
-  });
-
-  // 模型属性
-  const [modelPropertyState, setModelPropertyState] = useState({
-    visible: true,
-    position: {
-      x: 0,
-      y: 0,
-      z: 0,
-    },
-    scale: {
-      x: 0,
-      y: 0,
-      z: 0,
-    },
-    rotation: {
-      x: 0,
-      y: 0,
-      z: 0,
-    },
-  });
-
-  // 模型动画
-  const [modelAnimationState, setModelAnimationState] = useState({
-    animationType: 0,
-    animationData: {},
-  });
 
   const { operationState, initOperation, onChangeOperationState } =
     useOperation();
@@ -62,21 +32,23 @@ export default () => {
   const { cameraRef, cameraState, initCamera, onChangeCameraState } =
     useCamera();
 
-  const { onChangeTransformControllerState } = useTransformController({
-    setTransformControllerState,
-  });
+  const { transformControllerState, onChangeTransformControllerState } =
+    useTransformController();
+
+  const { lightState, setLightProperty, onChangeLightState } = useLight();
 
   const {
+    modelPropertyState,
     setModelProperty,
     onChangeModelPropertyState,
     onChangeTransformControls,
-  } = useModelProperty({
-    setModelPropertyState,
-  });
+  } = useModelProperty();
 
-  const { setModelAnimation, onChangeModelAnimationState } = useModelAnimation({
-    setModelAnimationState,
-  });
+  const {
+    modelAnimationState,
+    setModelAnimation,
+    onChangeModelAnimationState,
+  } = useModelAnimation();
 
   useEffect(() => {
     if (target) {
@@ -84,6 +56,12 @@ export default () => {
       setModelProperty(target);
       setModelAnimation(target);
       setRightPannelActiveTabKey("2");
+      if (target.isLight) {
+        setLightProperty(target);
+      }
+    } else {
+      onChangeTransformControllerState("mode", "translate");
+      setRightPannelActiveTabKey("1");
     }
   }, [target]);
 
@@ -116,5 +94,8 @@ export default () => {
 
     modelAnimationState,
     onChangeModelAnimationState,
+
+    lightState,
+    onChangeLightState,
   };
 };

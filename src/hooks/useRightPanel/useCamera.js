@@ -29,14 +29,14 @@ export default () => {
   };
 
   // 改变camera state
-  const onChangeCameraState = useCallback((key, value) => {
+  const onChangeCameraState = (key, value) => {
     setCameraState((preState) => {
       return {
         ...preState,
         [key]: value,
       };
     });
-  }, []);
+  };
 
   return {
     cameraRef,

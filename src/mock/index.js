@@ -1,12 +1,13 @@
 import { AnimationDataMap } from "@/constant";
 
 export const operationData = {
-  showGridHelper: false,
-  showAxesHelper: false,
+  showGridHelper: true,
+  showAxesHelper: true,
+  statsVisible: true,
 };
 
 export const sceneData = {
-  background: `#ffffff`,
+  background: `#404040`,
 };
 
 export const cameraData = {
@@ -32,21 +33,9 @@ export const modelData = [
     userData: {
       modelType: 1,
       modelName: "汽车",
-      position: { x: 1, y: 0, z: 1 },
+      position: { x: 0, y: 0, z: 0 },
       rotation: { x: 0, y: 180, z: 0 },
       scale: { x: 1, y: 1, z: 1 },
-      animationType: 0,
-      animationData: { ...AnimationDataMap },
-    },
-  },
-  {
-    id: 2,
-    modelType: 1,
-    url: `/assets/model/soldier.glb`,
-    userData: {
-      modelType: 1,
-      modelName: "士兵",
-      position: { x: 0, y: 0, z: 0 },
       animationType: 0,
       animationData: { ...AnimationDataMap },
     },

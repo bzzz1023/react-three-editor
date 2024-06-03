@@ -50,7 +50,7 @@ function App() {
   window.forceUpdate = useCallback(() => updateState({}), []);
 
   // 缓存 modelListRef
-  const modelListRef = useRef([]);
+  // const modelListRef = useRef([]);
 
   const {
     sceneRef,
@@ -76,6 +76,9 @@ function App() {
     onChangeTransformControllerState,
     onChangeTransformControls,
 
+    modelListRef,
+    handleModel,
+
     modelPropertyState,
     onChangeModelPropertyState,
 
@@ -92,8 +95,10 @@ function App() {
       if (res.code === 200) {
         const { sceneData, cameraData, modelData, operationData } = res.data;
         // 初始化模型
-        modelListRef.current = [...modelData];
-        window.forceUpdate();
+        handleModel({
+          type: 1,
+          data: modelData,
+        });
         // 初始化相机
         initCamera(cameraData);
         // 初始化场景
@@ -107,7 +112,10 @@ function App() {
   return (
     <div className="out-page-container">
       <MiddleToolBox cameraRef={cameraRef} />
-      <LeftControllerPanel modelListRef={modelListRef} />
+      <LeftControllerPanel
+        handleModel={handleModel}
+        modelListRef={modelListRef}
+      />
       <RightControllerPanel
         rightPannelActiveTabKey={rightPannelActiveTabKey}
         setRightPannelActiveTabKey={setRightPannelActiveTabKey}

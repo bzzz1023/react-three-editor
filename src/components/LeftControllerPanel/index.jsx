@@ -30,7 +30,7 @@ const tabItems = [
   },
 ];
 
-const App = ({ modelListRef }) => {
+const App = ({ modelListRef, handleModel }) => {
   const { target, setTarget, geometries, setGeometries } = useStore(); // Use store
 
   const [activeTabKey, setActiveTabKey] = useState("2");
@@ -49,8 +49,10 @@ const App = ({ modelListRef }) => {
         animationType: 0,
       },
     };
-    modelListRef.current.push(newModel);
-    window.forceUpdate();
+    handleModel({
+      type: 1,
+      data: [newModel],
+    });
   };
 
   const onChangeUploadModel = ({ name, url }) => {
@@ -68,8 +70,10 @@ const App = ({ modelListRef }) => {
         animationData: { ...AnimationDataMap },
       },
     };
-    modelListRef.current.push(newModel);
-    window.forceUpdate();
+    handleModel({
+      type: 1,
+      data: [newModel],
+    });
   };
 
   const collapseItems = injectCollapseItems({

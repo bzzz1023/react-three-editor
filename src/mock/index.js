@@ -3,7 +3,7 @@ import { AnimationDataMap } from "@/constant";
 export const operationData = {
   showGridHelper: true,
   showAxesHelper: true,
-  statsVisible: true,
+  statsVisible: false,
 };
 
 export const sceneData = {

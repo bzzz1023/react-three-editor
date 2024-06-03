@@ -12,10 +12,10 @@ const App = ({ lightState, onChangeLightState }) => {
         <div className="content-box-one">
           <InputNumber
             value={lightState.intensity}
-            precision={0}
+            precision={2}
             className="content-item"
             size="small"
-            step={1}
+            step={0.01}
             onChange={(e) => {
               onChangeLightState("intensity", e);
             }}
@@ -27,12 +27,14 @@ const App = ({ lightState, onChangeLightState }) => {
         <div className="item-title">颜色</div>
         <div className="content-box-one">
           <ColorPicker
-            // value={lightState.color}
+            value={lightState.color}
             disabledAlpha
             format="rgb"
-            onChange={(_, hex) => {
-              console.log('2222==',hex);
-              // onChangeLightState("color", hex);
+            onChange={(value, hex) => {
+              const r = Math.round(value.metaColor.r);
+              const g = Math.round(value.metaColor.g);
+              const b = Math.round(value.metaColor.b);
+              onChangeLightState("color", { r, g, b });
             }}
           />
         </div>

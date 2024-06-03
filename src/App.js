@@ -46,12 +46,6 @@ import { GetCanvasDataApi } from "@/api/mock.js";
 function App() {
   const { target, setTarget, geometries, setGeometries } = useStore();
 
-  const [, updateState] = useState();
-  window.forceUpdate = useCallback(() => updateState({}), []);
-
-  // 缓存 modelListRef
-  // const modelListRef = useRef([]);
-
   const {
     sceneRef,
 
@@ -133,6 +127,7 @@ function App() {
         onChangeModelAnimationState={onChangeModelAnimationState}
         lightState={lightState}
         onChangeLightState={onChangeLightState}
+        handleModel={handleModel}
       />
       <div className="main-three-editor-container">
         <Canvas

@@ -10,7 +10,7 @@ import {
 import "./index.scss";
 import useStore from "@/store";
 import { ColorPicker } from "antd";
-import { InputNumber, Checkbox, Select, Radio } from "antd";
+import { InputNumber, Checkbox, Select, Radio, Button } from "antd";
 import CameraPanel from "./components/CameraPanel";
 import ModelPropertyPanel from "./components/ModelPropertyPanel";
 import ModelAnimationPanel from "./components/ModelAnimationPanel";
@@ -49,6 +49,7 @@ const App = ({
   onChangeModelAnimationState,
   lightState,
   onChangeLightState,
+  handleModel,
 }) => {
   const { target, setTarget, geometries, setGeometries } = useStore();
   return (
@@ -108,7 +109,19 @@ const App = ({
           </>
         )}
       </div>
-      <div className="delete-box">删除</div>
+      {target && (
+        <div className="delete-box">
+          <Button
+            danger
+            className="btn"
+            onClick={() => {
+              handleModel({ type: 2, data: target });
+            }}
+          >
+            Remove Model
+          </Button>
+        </div>
+      )}
     </div>
   );
 };

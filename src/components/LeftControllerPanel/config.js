@@ -1,8 +1,8 @@
-import fireIcon from "./assets/fire.jpg";
-import oceanIcon from "./assets/ocean.jpg";
-import rectIcon from "./assets/rect.jpg";
-import treeIcon from "./assets/tree.jpg";
-import lightIcon from "./assets/light.png";
+import fireIcon from "@/assets/fire.jpg";
+import oceanIcon from "@/assets/ocean.jpg";
+import rectIcon from "@/assets/rect.jpg";
+import treeIcon from "@/assets/tree.jpg";
+import lightIcon from "@/assets/light.png";
 export const baseModelList = [
   {
     label: "火",

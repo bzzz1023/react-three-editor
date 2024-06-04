@@ -17,13 +17,13 @@ export const AnimationDataMap = {
     rotatePivot: { x: 0, y: 0, z: 0 },
     rotateRadius: 2,
     rotateClockwise: -1,
-    rotateSpeed: 1,
+    rotateSpeed: 8,
   },
   // 循环往复移动
   2: {
     moveDirection: ["x"],
     moveRange: 2,
-    moveSpeed: 10,
+    moveSpeed: 6,
   },
 };
 

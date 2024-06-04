@@ -31,7 +31,6 @@ export default () => {
       return e.mesh.scene.uuid === uuid;
     });
     modelListRef.current.splice(modelIndex, 1);
-    forceUpdate();
     setTarget(null);
   };
 

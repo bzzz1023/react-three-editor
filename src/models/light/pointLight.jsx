@@ -25,7 +25,15 @@ const App = ({ userData, setTarget, index, modelListRef }) => {
 
   useHelper(ref, PointLightHelper);
 
-  return <pointLight ref={ref} />;
+  return (
+    <pointLight
+      ref={ref}
+      onDoubleClick={(e) => {
+        e.stopPropagation();
+        setTarget(ref.current);
+      }}
+    />
+  );
 };
 
 export default memo(App);

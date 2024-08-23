@@ -52,10 +52,10 @@ function Ocean({ userData, setTarget, index, modelListRef }) {
         ref={ref}
         args={[geom, config]}
         rotation-x={-Math.PI / 2}
-        onClick={(e) => {
+        onDoubleClick={(e) => {
           // console.log(2233,setTarget);
           // console.log(1122,e.object);
-          // setTarget(e.object);
+          setTarget(e.object);
         }}
       />
       <Sky scale={1000} sunPosition={[500, 150, -1000]} turbidity={0.1} />

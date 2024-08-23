@@ -25,7 +25,15 @@ const App = ({ userData, setTarget, index, modelListRef }) => {
 
   // useHelper(ref, AmbientLight);
 
-  return <ambientLight ref={ref} />;
+  return (
+    <ambientLight
+      ref={ref}
+      onDoubleClick={(e) => {
+        e.stopPropagation();
+        setTarget(ref.current);
+      }}
+    />
+  );
 };
 
 export default memo(App);

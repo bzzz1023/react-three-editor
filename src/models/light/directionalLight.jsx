@@ -25,7 +25,16 @@ const App = ({ userData, setTarget, index, modelListRef }) => {
 
   useHelper(ref, DirectionalLightHelper);
 
-  return <directionalLight ref={ref} />;
+  return (
+    <directionalLight
+      ref={ref}
+      onDoubleClick={(e) => {
+        console.log(2233);
+        e.stopPropagation();
+        setTarget(ref.current);
+      }}
+    />
+  );
 };
 
 export default memo(App);

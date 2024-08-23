@@ -41,7 +41,8 @@ const App = ({ userData, setTarget, index, modelListRef }) => {
         ref={ref}
         geometry={new BoxGeometry()}
         dispose={null}
-        onClick={(e) => {
+        onDoubleClick={(e) => {
+          e.stopPropagation()
           setTarget(ref.current);
         }}
       >

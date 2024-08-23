@@ -3,3 +3,4 @@ const rgbToHex = (r, g, b) =>
 
 // rgbToHex(0, 51, 255);
 // Result: #0033ff`
+

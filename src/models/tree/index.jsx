@@ -13,12 +13,11 @@ import { Canvas, useFrame, useThree } from "@react-three/fiber";
 import { useGLTF, Clone } from "@react-three/drei";
 import initSetModelProperty from "@/utils/model/initSetModelProperty.js";
 import modelAnimationExecute from "@/utils/modelAnimation/index.js";
-
+const url = `/assets/model/tree.gltf`;
 
 const App = ({ userData, setTarget, index, modelListRef }) => {
   const ref = useRef();
 
-  const url = `/assets/model/tree.gltf`;
   const { scene } = useGLTF(url);
 
   useFrame((state, delta) => {
@@ -34,7 +33,6 @@ const App = ({ userData, setTarget, index, modelListRef }) => {
     };
     modelListRef.current[index].mesh = { scene: ref.current };
     initSetModelProperty({ ref });
-
   }, []);
 
   return (
@@ -43,7 +41,8 @@ const App = ({ userData, setTarget, index, modelListRef }) => {
         ref={ref}
         dispose={null}
         object={scene}
-        onClick={(e) => {
+        onDoubleClick={(e) => {
+          e.stopPropagation();
           setTarget(e.eventObject);
         }}
       />

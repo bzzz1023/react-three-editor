@@ -7,7 +7,12 @@
     z-index: 99;
     background-color: #ffffff;
     border-left: 1px solid rgb(229, 229, 229);
-
+    -moz-user-select: none; /*火狐*/
+    -webkit-user-select: none; /*webkit浏览器*/
+    -ms-user-select: none; /*IE10*/
+    -khtml-user-select: none; /*早期浏览器*/
+    user-select: none;
+    
     .header-box {
         height: 36px;
         width: 100%;

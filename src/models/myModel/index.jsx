@@ -57,7 +57,8 @@ export default memo(({ url, userData, setTarget, index, modelListRef }) => {
         ref={ref}
         dispose={null}
         object={mesh.scene}
-        onClick={(e) => {
+        onDoubleClick={(e) => {
+          e.stopPropagation()
           setTarget(ref.current);
         }}
       />

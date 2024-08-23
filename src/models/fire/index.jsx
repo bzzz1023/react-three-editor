@@ -129,7 +129,8 @@ function Fire({ userData, setTarget, index, modelListRef }) {
       <mesh
         ref={ref}
         dispose={null}
-        onClick={(e) => {
+        onDoubleClick={(e) => {
+          e.stopPropagation()
           setTarget(e.eventObject);
         }}
       >

@@ -10,8 +10,11 @@ export default ({ ref, state, delta }) => {
   const {
     userData: { animationType },
   } = ref.current;
+
   if (animationType === 0) return;
 
-  const animationExecute = AnimationMap[animationType];
-  animationExecute({ ref, state, delta });
+  if (animationType == 1 || animationType == 2) {
+    const animationExecute = AnimationMap[animationType];
+    animationExecute({ ref, state, delta });
+  }
 };

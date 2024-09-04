@@ -24,6 +24,7 @@ const App = ({ modelAnimationState, onChangeModelAnimationState }) => {
                 { value: 0, label: "无" },
                 { value: 1, label: "旋转动画" },
                 { value: 2, label: "移动动画" },
+                { value: 3, label: "条件动画" },
               ]}
               onChange={(e) => {
                 onChangeModelAnimationState("animationType", e);

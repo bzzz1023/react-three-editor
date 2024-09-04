@@ -30,11 +30,9 @@ const tabItems = [
   },
 ];
 
-const App = ({ modelListRef, handleModel }) => {
-  const { target, setTarget, geometries, setGeometries } = useStore(); // Use store
-
+const App = ({ modelListRef, handleModel, dataSourceState }) => {
+  const { target, setTarget, geometries, setGeometries } = useStore();
   const [activeTabKey, setActiveTabKey] = useState("2");
-
   const onChangeModelList = (data) => {
     const { config } = data;
     const { userData, ...configArgs } = config;

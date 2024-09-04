@@ -49,7 +49,7 @@ export default () => {
     });
   };
 
-  // 动画1 - 修改 模型对象 属性值
+  // 动画 - 旋转动画、移动动画
   const onChangeModelAnimationOne = (key, value) => {
     const { animationData, animationType } = target.userData;
     const preData = animationData[animationType];
@@ -60,7 +60,7 @@ export default () => {
     target.userData.animationData[animationType] = newData.animationData;
   };
 
-  // 动画2 - 修改 模型对象 属性值
+  // 动画 - 条件动画
   const onChangeModelAnimationTwo = (key, value) => {
     const { animationData, animationType } = target.userData;
     const preData = animationData[animationType];
@@ -73,13 +73,18 @@ export default () => {
 
   // 改变模型动画属性
   const onChangeModelAnimation = (animationType, key, value) => {
-    const funcMap = {
-      1: onChangeModelAnimationOne,
-      2: onChangeModelAnimationTwo,
-    };
     target.userData.animationType = animationType;
-    if (animationType === 0) return;
-    funcMap[animationType](key, value);
+    // if (animationType === 0) return;
+    switch (animationType) {
+      case 0:
+        break;
+      case 1 || 2:
+        onChangeModelAnimationOne(key, value);
+        break;
+      case 3:
+        // 条件动画
+        break;
+    }
   };
 
   // 改变模型动画数据state

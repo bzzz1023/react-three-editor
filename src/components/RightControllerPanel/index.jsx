@@ -1,4 +1,4 @@
- import {
+import {
   useState,
   useRef,
   useEffect,
@@ -17,9 +17,8 @@ import ModelAnimationPanel from "./components/ModelAnimationPanel";
 import TransformControllerPanel from "./components/TransformControllerPanel";
 import ScenePanel from "./components/ScenePanel";
 import OperationPanel from "./components/OperationPanel";
-import LightPanel from "./components/LightPanel"; 
+import LightPanel from "./components/LightPanel";
 import MyTab from "@/components/MyTab";
-
 
 const tabItems = [
   {

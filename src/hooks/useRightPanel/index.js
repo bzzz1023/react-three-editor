@@ -22,6 +22,9 @@ import useModel from "./useModel";
 export default () => {
   const { target, setTarget, geometries, setGeometries } = useStore();
 
+  // 数据源
+  const [dataSourceState, setDataSourceState] = useState({});
+
   // 右侧tab栏
   const [rightPannelActiveTabKey, setRightPannelActiveTabKey] = useState("1");
 
@@ -111,5 +114,8 @@ export default () => {
 
     lightState,
     onChangeLightState,
+
+    dataSourceState,
+    setDataSourceState,
   };
 };
